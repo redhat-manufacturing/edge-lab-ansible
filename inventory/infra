@@ -1,0 +1,32 @@
+[router]
+192.168.10.1
+
+[switch]
+192.168.10.2
+
+[network:children]
+router
+switch
+
+[pdu]
+192.168.10.21
+
+[kvm]
+192.168.10.22
+
+[infra:children]
+
+[example]
+192.168.30.3 ansible_user=root
+
+[gitlab]
+192.168.30.4
+
+[tower]
+192.168.30.5
+
+[bastion-external]
+osdu.coreapp.run ansible_user=ansible
+
+[bastion]
+192.168.10.20
