@@ -25,7 +25,7 @@ switch
 [tower]
 192.168.30.5
 
-[bastion-external]
+[bastion-public]
 osdu.coreapp.run ansible_user=ansible
 
 [bastion]

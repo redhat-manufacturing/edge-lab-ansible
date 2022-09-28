@@ -1,0 +1,35 @@
+---
+# vim: set ft=ansible:
+
+- name: Configure local software
+  gather_facts: false
+  hosts: se350-bmc
+  tasks:
+
+    # - name: Check system matches requirements
+    #   assert:
+    #     that:
+    #       - ansible_memtotal_mb >= 3072
+    
+    - name: Check SSH to bmc
+      ansible.builtin.ssh:
+        command: power state
+
+
+    # - name: Create SSH keypair
+    #   openssh_keypair:
+    #     path: "~/.ssh/id_rsa"
+    #     type: rsa
+    #     size: 4096
+    #     state: present
+    #     force: no
+    #   when: run_local
+
+    # - name: Make prereq directories
+    #   ansible.builtin.file:
+    #     path: "{{ item }}"
+    #     state: directory
+    #   loop:
+    #     - "{{ bin_dir }}"
+    #     - "{{ install_dir }}"
+    #     - "{{ scratch_bins }}"

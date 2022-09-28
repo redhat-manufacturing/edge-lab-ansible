@@ -1,4 +1,4 @@
-# Tiger.lab Info
+# OSDU lab Info
 
 This repository is used to track / automate the assests in the OSDU Lab.
 
@@ -25,6 +25,9 @@ export ANSIBLE_VAULT_PASSWORD_FILE=$(pwd)/scratch/vault_pass.txt
 
 ## Adhoc Commands
 ```
+# bastion-public
+ansible bastion-public -m raw -a 'uptime; uname -a'
+
 # scan xcc/ipmi
 ansible se350-bmc -m raw -a 'version'
 
