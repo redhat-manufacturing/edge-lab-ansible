@@ -1,0 +1,36 @@
+---
+# vim: set ft=ansible:
+
+- name: Run BMC commands
+  gather_facts: false
+  hosts: se350_bmc
+  vars:
+    bmc_cmd_list:
+      - info -contact jarcher@gmail.com
+      - users -2 -n ansible -p {{ vault_ansible_password }} -a custom:rcvma|pr
+      # - users -2 -pk -add {{ ssh_public_key }}
+
+  tasks:
+
+    - name: BMC - list users
+      raw: "users"
+      register: output
+    
+    - debug:
+        var: output.stdout_lines
+
+    - name: BMC - list ansible user
+      raw: "users -2"
+      register: output
+
+    - debug:
+        var: output.stdout_lines
+
+    - name: BMC - run cmd list
+      raw: "{{ item }}"
+      register: output
+      with_items: "{{ bmc_cmd_list }}"
+
+    - debug:
+        var: output.results
+

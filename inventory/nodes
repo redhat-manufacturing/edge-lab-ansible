@@ -2,20 +2,6 @@
 # [example]
 # 192.168.30.3 ansible_user=root
 
-[router]
-192.168.10.1
-
-[network:children]
-router
-
-[pdu]
-192.168.10.21
-
-[kvm]
-192.168.10.22
-
-[infra:children]
-
 [bastion_public]
 osdu.coreapp.run ansible_user=ansible
 
