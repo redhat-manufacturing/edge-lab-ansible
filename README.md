@@ -12,7 +12,7 @@ This repository is used to track / automate the assests in the OSDU Lab.
 sudo yum -y install python3 python3-pip
 
 # setup python virtual env
-python3 -m venv venv
+python3 -m venv venv --system-site-packages
 . venv/bin/activate
 pip install -U pip
 
@@ -29,7 +29,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE=$(pwd)/scratch/vault_pass.txt
 ansible bastion-public -m raw -a 'uptime; uname -a'
 
 # scan xcc/ipmi
-ansible se350-bmc -m raw -a 'version'
+ansible se350_bmc -m raw -a 'version'
 
 # infra network scan
 nmap -sn 10.1.{2,5}.*
