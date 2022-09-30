@@ -1,0 +1,12 @@
+---
+# vim: set ft=ansible:
+
+- name: Run BMC commands
+  gather_facts: false
+  hosts: se350_bmc
+  tasks:
+
+    - name: Check SSH to bmc
+      raw:
+        args: "help"
+
