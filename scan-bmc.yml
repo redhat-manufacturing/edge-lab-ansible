@@ -7,6 +7,11 @@
   tasks:
 
     - name: Check SSH to bmc
-      raw:
-        args: "help"
+      raw: "help"
 
+    - name: Check BMC power state
+      raw: "power state"
+      register: power_state
+
+    - debug:
+        var: power_state.stdout_lines
