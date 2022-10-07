@@ -29,7 +29,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE=$(pwd)/scratch/vault_pass.txt
 ansible bastion-public -m raw -a 'uptime; uname -a'
 
 # scan xcc/ipmi
-ansible se350_bmc -m raw -a 'version'
+ansible se350_bmc -m raw -a 'led'
 
 # infra network scan
 nmap -sn 10.1.{2,5}.*
