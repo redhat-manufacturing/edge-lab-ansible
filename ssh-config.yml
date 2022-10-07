@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  vars:
+    target_user: root
+
+  tasks:
+    - name: ssh key exchange with target_user
+      ansible.posix.authorized_key:
+        user: "{{ target_user }}"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+    - name: disable password auth for target_user
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin prohibit-password'
