@@ -2,10 +2,6 @@
 
 This repository is used to track / automate the assests in the OSDU Lab.
 
-## Captured configs (cleaned of secrets)
-- [router](files/router_cfg.cleaned)
-- [switch](files/switch_cfg.cleaned)
-
 ## Quickstart
 ```
 # install python
