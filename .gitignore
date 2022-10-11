@@ -141,3 +141,11 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# VIM/Ctags
+tags
+*.swp
+
+# Makefile artifacts
+.pip-prereqs
+.collection
+.ee-built
