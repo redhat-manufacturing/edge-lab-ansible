@@ -2,7 +2,7 @@ RUNTIME = podman
 
 SRC := collection/requirements.txt collection/bindep.txt $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*.j2)
 
-all: collection
+all: ee
 .PHONY: all
 
 ##############################################################################
@@ -24,7 +24,7 @@ clean-prereqs:
 	rm -rf venv .pip-prereqs
 .PHONY: clean-prereqs
 
-prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder venv/bin/setuptools-scm
+prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder
 .PHONY: prereqs
 
 ##############################################################################
@@ -53,6 +53,7 @@ collection: .collection
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
 	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t osdu_lab-infra:$$(cat ../VERSION)
+	podman tag localhost/osdu_lab-infra:$$(cat VERSION) localhost/osdu_lab-infra:latest
 	touch .ee-built
 
 ee: .ee-built

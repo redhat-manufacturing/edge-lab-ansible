@@ -1,0 +1,5 @@
+---
+- hosts: bastion_public
+  become: yes
+  roles:
+    - role: osdu_lab.infra.ssh_setup

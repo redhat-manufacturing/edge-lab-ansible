@@ -1,0 +1,25 @@
+---
+ansible-navigator:
+  ansible:
+    config:
+      path: ansible.cfg
+    inventory:
+      entries:
+      - inventory/infra
+      - inventory/nodes
+      - inventory/se350
+  execution-environment:
+    container-engine: podman
+    container-options:
+    - --privileged
+    - --security-opt=label=disable
+    enabled: true
+    image: localhost/osdu_lab-infra:latest
+    pull:
+      policy: never
+  logging:
+    append: true
+    file: ansible-navigator.log
+  mode: stdout
+  playbook-artifact:
+    enable: false

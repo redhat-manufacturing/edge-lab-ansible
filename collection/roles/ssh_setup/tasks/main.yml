@@ -1,0 +1,11 @@
+---
+- name: Update the authorized keys for the ansible user
+  ansible.posix.authorized_key:
+    user: ansible
+    state: present
+    key: |-
+    {% for desired_group in desired_groups %}
+    {% for key in authorized_keys[desired_group] %}
+    {{ key}}
+    {% endfor %}
+    {% endfor %}
