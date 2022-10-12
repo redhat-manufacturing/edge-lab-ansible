@@ -1,0 +1,14 @@
+extends: default
+
+rules:
+  document-start: disable
+  line-length: disable
+  comments-indentation: disable
+  new-line-at-end-of-file: disable
+  indentation:
+    indent-sequences: whatever
+    ignore: kludgeops/
+  braces:
+    ignore: grafana-operator/base/instance/grafana.yaml
+  truthy: disable
+  trailing-spaces: enable
