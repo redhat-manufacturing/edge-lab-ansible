@@ -3,9 +3,10 @@
   ansible.posix.authorized_key:
     user: ansible
     state: present
+    exclusive: yes
     key: |-
       {% for desired_group in desired_groups %}
       {% for key in authorized_keys[desired_group] %}
-      {{ key}}
+      {{ key }}
       {% endfor %}
       {% endfor %}
