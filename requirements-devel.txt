@@ -1,7 +1,8 @@
 ansible >= 6.4.0, <7.0.0
 ansible-builder >= 1.1.0, <2.0.0
-yasha >=5.0, <6.0
-setuptools-scm >=7.0.5, <8.0.0
-yamllint >=1.28.0, <2.0.0
-pyspelling >=2.8.1, <3.0.0
 ansible-navigator >=2.2.0, <3.0.0
+pyspelling >=2.8.1, <3.0.0
+setuptools-scm >=7.0.5, <8.0.0
+virtualenv >=20.16.0, <21.0.0
+yamllint >=1.28.0, <2.0.0
+yasha >=5.0, <6.0
