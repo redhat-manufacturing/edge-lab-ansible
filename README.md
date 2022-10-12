@@ -3,26 +3,43 @@
 This repository is used to track / automate the assests in the OSDU Lab.
 
 ## Quickstart
+
 ```
-# install python
-sudo yum -y install python3 python3-pip
+# install python, make
+sudo yum -y install python3 python3-pip make
 
-# setup python virtual env
-python3 -m venv venv --system-site-packages
-. venv/bin/activate
-pip install -U pip
+# save the vault pass
+mkdir scratch
+echo 'the-actual-vault-pass' > scratch/vault_pass.txt
 
-# setup ansible
-pip install -r requirements.txt
+# premake the EE if you like
+make
 
-# setup ansible-vault
-export ANSIBLE_VAULT_PASSWORD_FILE=$(pwd)/scratch/vault_pass.txt
+# ensure that your ssh-agent has your SSH key for connecting to osdu.coreapp.run
+ssh-add -L
+
+# ONLY IF YOU NEED TO: start the ssh-agent and/or add the appropriate key
+eval $(ssh-agent)
+ssh-add ~/.ssh/id_rsa   # or whatever the path to your keys is
 ```
+
+## Playbooks
+
+Run a playbook using run.sh to ensure the EE is up to date with any collection changes you've made and leverage ansible-navigator to run a playbook in the EE with the environment pre-prepped:
+
+```
+./run.sh playbooks/ping.yml --limit bastion_public
+```
+
+All arguments to run.sh are passed directly to `ansible-navigator run`, which passes them directly to `ansible-playbook` - meaning any arguments to `run.sh` should be exactly as you're used to running them with `ansible-playbook`.
 
 ## Adhoc Commands
+
 ```
+. venv/bin/activate
+
 # bastion-public
-ansible bastion-public -m raw -a 'uptime; uname -a'
+ansible bastion_public -m raw -a 'uptime; uname -a'
 
 # scan xcc/ipmi
 ansible se350_bmc -m raw -a 'led'
@@ -43,9 +60,11 @@ ansible-vault encrypt files/*_cfg
 ```
 
 ## Topics
+
 - [Hardening External VMs](docs/HARDENING.md)
 - [Network](docs/NETWORK.md)
 - [VPN](docs/VPN.md)
 
 ## Other Links
+
 - [vbmc 4 vsphere](https://github.com/kurokobo/virtualbmc-for-vsphere)
