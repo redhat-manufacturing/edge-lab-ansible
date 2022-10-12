@@ -149,3 +149,8 @@ tags
 .pip-prereqs
 .collection
 .ee-built
+VERSION
+
+# Collection artifacts
+osdu_lab-infra-*.tar.gz
+collection/galaxy.yml

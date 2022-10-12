@@ -1,0 +1,6 @@
+---
+- name: Update the authorized keys for the ansible user
+  ansible.posix.authorized_key:
+    user: ansible
+    state: present
+    key: '{{ lookup("file", playbook_dir + "/authorized_keys") }}'

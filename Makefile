@@ -1,9 +1,6 @@
 RUNTIME = podman
-ANSIBLE_TAGS =
-ANSIBLE_SKIP_TAGS =
 
-SRC := collection/requirements.txt collection/galaxy.yml $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*.j2)
-VERSION
+SRC := collection/requirements.txt collection/bindep.txt $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*.j2)
 
 all: collection
 .PHONY: all
@@ -24,7 +21,7 @@ venv/bin/ansible-galaxy: .pip-prereqs
 venv/bin/ansible-builder: .pip-prereqs
 
 clean-prereqs:
-	rm -rf venv
+	rm -rf venv .pip-prereqs
 .PHONY: clean-prereqs
 
 prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder venv/bin/setuptools-scm
@@ -34,57 +31,44 @@ prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder venv/bi
 #                               COLLECTION                                   #
 ##############################################################################
 VERSION: .pip-prereqs $(SRC)
-	@venv/bin/python -m setuptools_scm 2>/dev/null > VERSION
+	@venv/bin/python -m setuptools_scm 2>/dev/null | sed -e 's/\.\(dev[^+]\+\).*$$/-\1/' -e 's/^\([0-9]\.[0-9]\)-/\1.0-/' > VERSION
 
 collection/galaxy.yml: .pip-prereqs VERSION
 	-rm -f collection/galaxy.yml
-	venv/bin/yasha --VERSION=$(shell cat VERSION) collection/galaxy.yml.j2
+	venv/bin/yasha --VERSION=$$(cat VERSION) collection/galaxy.yml.j2
 
 .collection: collection/galaxy.yml
 	venv/bin/ansible-galaxy collection build -v collection
 	touch .collection
 
-## TODO: FINISH BELOW
+collection: .collection
+.PHONY: collection
+
 ##############################################################################
 #                          EXECUTION ENVIRONMENT                             #
 ##############################################################################
 .ee-built: .collection
-	cp  execution-environment/jharmison_redhat-oc_mirror_e2e-latest.tar.gz
+	cp osdu_lab-infra-$$(cat VERSION).tar.gz execution-environment/osdu_lab-infra-latest.tar.gz
+	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
+	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
-	  && $(RUNTIME) build . -f Containerfile.builder -t extended-builder-image \
-	  && $(RUNTIME) build . -f Containerfile.base -t extended-base-image \
-	  && ../.venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t oc-mirror-e2e:$(VERSION)
+	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t osdu_lab-infra:$$(cat ../VERSION)
 	touch .ee-built
 
 ee: .ee-built
-
-.ee-published: .ee-built
-	$(RUNTIME) tag oc-mirror-e2e:$(VERSION) $(PUSH_IMAGE):$(VERSION)
-	$(RUNTIME) push $(PUSH_IMAGE):$(VERSION)
-	$(RUNTIME) tag oc-mirror-e2e:$(VERSION) $(PUSH_IMAGE):latest
-	$(RUNTIME) push $(PUSH_IMAGE):latest
-	touch .ee-published
-
-ee-publish: .ee-published
-
-##############################################################################
-#                               RUN CONTENT                                  #
-##############################################################################
-run: .ee-built
-	ANSIBLE_TAGS=$(ANSIBLE_TAGS) ANSIBLE_SKIP_TAGS=$(ANSIBLE_SKIP_TAGS) EE_VERSION=$(VERSION) RUNTIME=$(RUNTIME) ANSIBLE_EXTRA_VARS_FILES="$(ANSIBLE_SCENARIO_VARS)" example/run.sh $(ANSIBLE_PLAYBOOKS)
-destroy: .ee-built
-	ANSIBLE_TAGS=$(ANSIBLE_TAGS) ANSIBLE_SKIP_TAGS=$(ANSIBLE_SKIP_TAGS) EE_VERSION=$(VERSION) RUNTIME=$(RUNTIME) ANSIBLE_EXTRA_VARS_FILES="$(ANSIBLE_SCENARIO_VARS)" example/run.sh delete
-exec: .ee-built
-	ANSIBLE_EE_SHELL=true ANSIBLE_TAGS=$(ANSIBLE_TAGS) ANSIBLE_SKIP_TAGS=$(ANSIBLE_SKIP_TAGS) EE_VERSION=$(VERSION) RUNTIME=$(RUNTIME) ANSIBLE_EXTRA_VARS_FILES="$(ANSIBLE_SCENARIO_VARS)" example/run.sh
+.PHONY: ee
 
 ##############################################################################
 #                                 CLEANUP                                    #
 ##############################################################################
 clean:
-	rm -rf jharmison_redhat-oc_mirror_e2e-*.tar.gz collection/galaxy.yml
+	rm -rf osdu_lab-infra-*.tar.gz .collection collection/galaxy.yml
+.PHONY: clean
+
 realclean: clean clean-prereqs
-	podman unshare rm -rf example/output/*
-	rm -rf example/artifacts/* .pip-prereqs .collection-published .ee-built .ee-published
+	rm -rf .ee-built
 	-$(RUNTIME) rmi extended-builder-image
 	-$(RUNTIME) rmi extended-base-image
-	-$(RUNTIME) rmi oc-mirror-e2e:$(VERSION)
+	-$(RUNTIME) rmi osdu_lab-infra:$$(cat VERSION)
+	-rm -f VERSION
+.PHONY: realclean

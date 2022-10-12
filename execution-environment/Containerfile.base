@@ -1,0 +1,3 @@
+FROM registry.redhat.io/ansible-automation-platform-21/ee-minimal-rhel8:latest
+
+COPY osdu_lab-infra-latest.tar.gz /extras/
