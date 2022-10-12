@@ -1,5 +1,8 @@
 RUNTIME = podman
 
+# This should resolve to every file in the collection. If we add any kind of python plugin
+# at a later date, we should ensure we update SRC to glob for those files as well. Doing this
+# makes it so that the Makefile will rebuild only what it needs to every time there's a change.
 SRC := collection/requirements.txt collection/bindep.txt $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*.j2)
 
 all: ee
@@ -38,7 +41,7 @@ collection/galaxy.yml: .pip-prereqs VERSION
 	venv/bin/yasha --VERSION=$$(cat VERSION) collection/galaxy.yml.j2
 
 .collection: collection/galaxy.yml
-	venv/bin/ansible-galaxy collection build -v collection
+	venv/bin/ansible-galaxy collection build -v collection --force
 	touch .collection
 
 collection: .collection
@@ -67,7 +70,7 @@ clean:
 .PHONY: clean
 
 realclean: clean clean-prereqs
-	rm -rf .ee-built
+	-rm -rf .ee-built execution-environment/{context,osdu_lab-infra-latest.tar.gz}
 	-$(RUNTIME) rmi extended-builder-image
 	-$(RUNTIME) rmi extended-base-image
 	-$(RUNTIME) rmi osdu_lab-infra:$$(cat VERSION)
