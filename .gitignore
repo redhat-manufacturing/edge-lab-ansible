@@ -152,6 +152,6 @@ tags
 VERSION
 
 # Collection artifacts
-osdu_lab-infra-*.tar.gz
+osdu_lab-*.tar.gz
 collection/galaxy.yml
 execution-environment/context

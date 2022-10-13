@@ -66,11 +66,11 @@ ee: .ee-built
 #                                 CLEANUP                                    #
 ##############################################################################
 clean:
-	rm -rf osdu_lab-infra-*.tar.gz .collection collection/galaxy.yml
+	rm -rf osdu_lab-*.tar.gz .collection collection/galaxy.yml
 .PHONY: clean
 
 realclean: clean clean-prereqs
-	-rm -rf .ee-built execution-environment/{context,osdu_lab-infra-latest.tar.gz}
+	-rm -rf .ee-built execution-environment/{context,osdu_lab-*.tar.gz}
 	-$(RUNTIME) rmi extended-builder-image
 	-$(RUNTIME) rmi extended-base-image
 	-$(RUNTIME) rmi osdu_lab-infra:$$(cat VERSION)
