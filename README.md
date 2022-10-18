@@ -5,8 +5,8 @@ This repository is used to track / automate the assests in the OSDU Lab.
 ## Quickstart
 
 ```
-# install python, make
-sudo yum -y install python3 python3-pip make
+# install python, pip, virtualenv, and make
+sudo yum -y install python3 python3-pip python3-virtualenv make
 
 # save the vault pass
 mkdir scratch
