@@ -11,3 +11,22 @@
       {% endfor %}
       {% endfor %}
   loop: '{{ ssh_config_users }}'
+
+- name: Ensure the SSHD configuration from a directory
+  lineinfile:
+    state: present
+    path: /etc/ssh/sshd_config
+    line: Include /etc/ssh/sshd_config.d/*.conf
+  notify: restart sshd
+
+- name: Ensure SSHD configuration directory exists
+  file:
+    state: directory
+    path: /etc/sshd/sshd_config.d
+  notify: restart sshd
+
+- name: Drop SSHD configuration snippets
+  copy:
+    src: 99-lockdown.conf
+    dest: /etc/sshd/sshd_config.d/
+  notify: restart sshd
