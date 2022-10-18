@@ -1,3 +1,9 @@
 ---
+ssh_config_users:
+- root
+
+ssh_config_authorized_keys:
+  redhat: []
+
 desired_groups:
 - redhat

@@ -1,4 +1,4 @@
-authorized_keys:
+ssh_config_authorized_keys:
   redhat:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/cory") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/tmoore") }}'
