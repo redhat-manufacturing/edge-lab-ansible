@@ -1,5 +1,5 @@
 ---
 - name: Ensure fail2ban is installed
-  dnf:
+  ansible.builtin.dnf:
     name: fail2ban
     state: present

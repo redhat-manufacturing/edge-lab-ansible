@@ -1,6 +1,6 @@
 ---
 - name: Enable fail2ban using distribution-specific means
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: '{{ item }}'
   with_first_found:
   - files:
@@ -9,18 +9,21 @@
     - default_install.yml
 
 - name: Configure fail2ban jails
-  copy:
+  ansible.builtin.copy:
     src: '{{ item }}.conf'
     dest: /etc/fail2ban/jail.d/
-  loop: '{{ fail2ban_jail_configs|flatten }}'
+    owner: root
+    group: root
+    mode: '0644'
+  loop: '{{ fail2ban_jail_configs | flatten }}'
   vars:
     fail2ban_jail_configs:
     - 01-defaults  # always include the defaults
-    - '{{ ["02-"]|product(fail2ban_jails_to_configure)|map("join")|list }}'  # this prepends "02-" to every member of the array
+    - '{{ ["02-"] | product(fail2ban_jails_to_configure) | map("join") | list }}'  # this prepends "02-" to every member of the array
   notify: restart fail2ban
 
 - name: Ensure fail2ban is running and enabled
-  service:
+  ansible.builtin.service:
     name: fail2ban
     state: started
     enabled: yes

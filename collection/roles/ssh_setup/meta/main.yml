@@ -1,3 +1,3 @@
 ---
 dependencies:
-- role: osdu_lab.infra.fail2ban
+- role: fail2ban

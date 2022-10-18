@@ -13,20 +13,29 @@
   loop: '{{ ssh_config_users }}'
 
 - name: Ensure the SSHD configuration from a directory
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     path: /etc/ssh/sshd_config
     line: Include /etc/ssh/sshd_config.d/*.conf
+    owner: root
+    group: root
+    mode: '0600'
   notify: restart sshd
 
 - name: Ensure SSHD configuration directory exists
-  file:
+  ansible.builtin.file:
     state: directory
     path: /etc/sshd/sshd_config.d
+    owner: root
+    group: root
+    mode: '0700'
   notify: restart sshd
 
 - name: Drop SSHD configuration snippets
-  copy:
+  ansible.builtin.copy:
     src: 99-lockdown.conf
     dest: /etc/sshd/sshd_config.d/
+    owner: root
+    group: root
+    mode: '0600'
   notify: restart sshd

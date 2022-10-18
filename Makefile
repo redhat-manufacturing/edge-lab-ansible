@@ -7,7 +7,8 @@ endif
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
 # makes it so that the Makefile will rebuild only what it needs to every time there's a change.
-SRC := collection/requirements.txt collection/bindep.txt $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*.j2)
+SRC_YAML := $(wildcard collection/roles/*/*/*.yml)
+SRC := collection/requirements.txt collection/bindep.txt $(SRC_YAML) $(wildcard collection/roles/*/*/*.j2)
 
 all: ee
 .PHONY: all
@@ -26,6 +27,8 @@ venv/bin/pip:
 venv/bin/yasha: .pip-prereqs
 venv/bin/ansible-galaxy: .pip-prereqs
 venv/bin/ansible-builder: .pip-prereqs
+venv/bin/yamllint: .pip-prereqs
+venv/bin/ansible-lint: .pip-prereqs
 
 clean-prereqs:
 	rm -rf venv .pip-prereqs
@@ -33,6 +36,13 @@ clean-prereqs:
 
 prereqs: .pip-prereqs
 .PHONY: prereqs
+
+lint: venv/bin/yamllint venv/bin/ansible-lint $(SRC_YAML)
+	venv/bin/yamllint $(SRC_YAML)
+	venv/bin/yamllint $(wildcard playbooks/*.yml)
+	venv/bin/ansible-lint $(SRC_YAML)
+	# Unable to do ansible-lint on playbooks due to collection/EE scoping
+.PHONY: lint
 
 ##############################################################################
 #                               COLLECTION                                   #
@@ -44,7 +54,8 @@ collection/galaxy.yml: venv/bin/yasha VERSION
 	-rm -f collection/galaxy.yml
 	venv/bin/yasha --VERSION=$$(cat VERSION) collection/galaxy.yml.j2
 
-.collection: collection/galaxy.yml
+.collection: venv/bin/ansible-galaxy collection/galaxy.yml
+	$(MAKE) lint
 	venv/bin/ansible-galaxy collection build -v collection --force
 	touch .collection
 
