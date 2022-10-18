@@ -12,6 +12,10 @@ sudo yum -y install python3 python3-pip make
 mkdir scratch
 echo 'the-actual-vault-pass' > scratch/vault_pass.txt
 
+# log in to the Red Hat Registry to be able to use an official EE base image
+# best practice is to use a service account: https://access.redhat.com/terms-based-registry/#/
+podman login registry.redhat.io
+
 # premake the EE if you like
 make
 
