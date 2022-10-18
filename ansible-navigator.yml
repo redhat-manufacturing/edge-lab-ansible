@@ -9,7 +9,6 @@ ansible-navigator:
       - inventory/nodes
       - inventory/se350
   execution-environment:
-    container-engine: podman
     container-options:
     - --privileged
     - --security-opt=label=disable

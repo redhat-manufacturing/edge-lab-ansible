@@ -1,4 +1,8 @@
-RUNTIME = podman
+RUNTIME := $(shell command -v podman || command -v docker)
+RUNTIME := $(shell basename $(RUNTIME))
+ifeq ($(RUNTIME),)
+$(error Unable to run without a container runtime (podman, docker) available)
+endif
 
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
@@ -27,7 +31,7 @@ clean-prereqs:
 	rm -rf venv .pip-prereqs
 .PHONY: clean-prereqs
 
-prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder
+prereqs: .pip-prereqs
 .PHONY: prereqs
 
 ##############################################################################
@@ -36,7 +40,7 @@ prereqs: venv/bin/yasha venv/bin/ansible-galaxy venv/bin/ansible-builder
 VERSION: .pip-prereqs $(SRC)
 	@venv/bin/python -m setuptools_scm 2>/dev/null | sed -e 's/\.\(dev[^+]\+\).*$$/-\1/' -e 's/^\([0-9]\.[0-9]\)-/\1.0-/' > VERSION
 
-collection/galaxy.yml: .pip-prereqs VERSION
+collection/galaxy.yml: venv/bin/yasha VERSION
 	-rm -f collection/galaxy.yml
 	venv/bin/yasha --VERSION=$$(cat VERSION) collection/galaxy.yml.j2
 
@@ -50,13 +54,13 @@ collection: .collection
 ##############################################################################
 #                          EXECUTION ENVIRONMENT                             #
 ##############################################################################
-.ee-built: .collection
+.ee-built: venv/bin/ansible-builder .collection
 	cp osdu_lab-infra-$$(cat VERSION).tar.gz execution-environment/osdu_lab-infra-latest.tar.gz
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
 	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t osdu_lab-infra:$$(cat ../VERSION)
-	podman tag localhost/osdu_lab-infra:$$(cat VERSION) localhost/osdu_lab-infra:latest
+	$(RUNTIME) tag localhost/osdu_lab-infra:$$(cat VERSION) localhost/osdu_lab-infra:latest
 	touch .ee-built
 
 ee: .ee-built
