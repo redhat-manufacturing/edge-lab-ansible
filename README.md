@@ -39,6 +39,53 @@ Run a playbook using run.sh to ensure the EE is up to date with any collection c
 
 All arguments to run.sh are passed directly to `ansible-navigator run`, which passes them directly to `ansible-playbook` - meaning any arguments to `run.sh` should be exactly as you're used to running them with `ansible-playbook`.
 
+## Pulling the execution environment and a playbook from the repo on an endpoint directly
+
+Run all of the following as the root user (as this will be done via a systemd unit soon).
+
+Enable the AAP repositories and install ansible-navigator:
+
+```
+dnf config-manager --set-enabled ansible-automation-platform-2.2-for-rhel-8-x86_64-rpms
+dnf -y install ansible-navigator
+```
+
+Place the ansible-navigator configuration file to pull the execution environment somewhere:
+
+```
+ANSIBLE_NAVIGATOR_CONFIG=/etc/ansible-navigator.yml
+cat << 'EOF' > $ANSIBLE_NAVIGATOR_CONFIG
+ansible-navigator:
+  execution-environment:
+    container-options:
+    - --privileged
+    - --security-opt=label=disable
+    enabled: true
+    image: registry.jharmison.com/library/osdu_lab-infra:latest
+  logging:
+    append: true
+    file: /var/log/ansible-navigator.log
+  mode: stdout
+  playbook-artifact:
+    enable: false
+EOF
+```
+
+Set up the vault password:
+
+```
+echo 'the actual vault password' > /root/vault_pass.txt
+```
+
+Run ansible-navigator with the config environment variable exported:
+
+```
+export ANSIBLE_NAVIGATOR_CONFIG
+export ANSIBLE_VAULT_PASSWORD_FILE=/root/vault_pass.txt
+# the following playbook is an example of how to use ansible-pull with ansible-navigator and not the thing I would expect you to run
+ansible-navigator exec -- ansible-pull -U https://github.com/redhat-manufacturing/osdu-lab-ansible.git playbooks/ping.yml --limit bastion -c local
+```
+
 ## Adhoc Commands
 
 ```
