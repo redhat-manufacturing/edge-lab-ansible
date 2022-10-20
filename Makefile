@@ -4,6 +4,9 @@ ifeq ($(RUNTIME),)
 $(error Unable to run without a container runtime (podman, docker) available)
 endif
 
+REGISTRY := registry.jharmison.com
+REPOSITORY := osdu-lab/infra
+
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
 # makes it so that the Makefile will rebuild only what it needs to every time there's a change.
@@ -70,12 +73,20 @@ collection: .collection
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
-	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t osdu_lab-infra:$$(cat ../VERSION)
-	$(RUNTIME) tag localhost/osdu_lab-infra:$$(cat VERSION) localhost/osdu_lab-infra:latest
+	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t $(REGISTRY)/$(REPOSITORY):$$(cat ../VERSION)
+	$(RUNTIME) tag $(REGISTRY)/$(REPOSITORY):$$(cat VERSION) $(REGISTRY)/$(REPOSITORY):latest
 	touch .ee-built
+
+.ee-published: .ee-built
+	$(RUNTIME) push $(REGISTRY)/$(REPOSITORY):$$(cat VERSION)
+	$(RUNTIME) push $(REGISTRY)/$(REPOSITORY):latest
+	touch .ee-published
 
 ee: .ee-built
 .PHONY: ee
+
+publish: .ee-published
+.PHONY: publish
 
 ##############################################################################
 #                                 CLEANUP                                    #

@@ -149,6 +149,7 @@ tags
 .pip-prereqs
 .collection
 .ee-built
+.ee-published
 VERSION
 
 # Collection artifacts

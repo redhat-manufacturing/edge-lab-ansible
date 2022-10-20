@@ -61,7 +61,7 @@ ansible-navigator:
     - --privileged
     - --security-opt=label=disable
     enabled: true
-    image: registry.jharmison.com/library/osdu_lab-infra:latest
+    image: registry.jharmison.com/osdu-lab/infra:latest
   logging:
     append: true
     file: /var/log/ansible-navigator.log
@@ -71,13 +71,22 @@ ansible-navigator:
 EOF
 ```
 
-Set up the vault password:
+Set up the vault password, log in to the registry, and ensure that an SSH key is configured to sign in to git:
 
 ```
 echo 'the actual vault password' > /root/vault_pass.txt
+podman login registry.jharmison.com  # a service account has been created that can pull from here, will be in vaulted secrets soon
+mkdir -p ~/.ssh
+cat << 'EOF' > ~/.ssh/id_rsa
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
+[...]  # put an actual SSH key here
+-----END OPENSSH PRIVATE KEY-----
+EOF
+chmod -R u=rwX,g=,o= ~/.ssh
 ```
 
-Run ansible-navigator with the config environment variable exported:
+Run ansible-navigator with the config and vault environment variables exported:
 
 ```
 export ANSIBLE_NAVIGATOR_CONFIG
