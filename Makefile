@@ -65,7 +65,7 @@ collection: .collection
 ##############################################################################
 #                          EXECUTION ENVIRONMENT                             #
 ##############################################################################
-.ee-built: venv/bin/ansible-builder .collection
+.ee-built: venv/bin/ansible-builder .collection $(wildcard execution-environment/Containerfile*) execution-environment/requirements.yml execution-environment/execution-environment.yml
 	cp osdu_lab-infra-$$(cat VERSION).tar.gz execution-environment/osdu_lab-infra-latest.tar.gz
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
