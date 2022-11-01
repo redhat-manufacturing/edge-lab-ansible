@@ -34,11 +34,9 @@ if $missing_prereqs; then
     exit 1
 fi
 
-export ANSIBLE_VAULT_PASSWORD_FILE="${ANSIBLE_VAULT_PASSWORD_FILE:-scratch/vault_pass.txt}"
-
-if [ ! -f "${ANSIBLE_VAULT_PASSWORD_FILE}" ]; then
-    echo "You should put the vault password in ${ANSIBLE_VAULT_PASSWORD_FILE}" >&2
-    read -rsn1p 'Press any key to continue.' _; echo
+if [ -z "${ANSIBLE_VAULT_PASSWORD}" ]; then
+    echo "You should export the vault password as ANSIBLE_VAULT_PASSWORD (with a leading space to prevent it entering history)." >&2
+    read -rsn1 -p 'Press any key to continue.' _; echo
 fi
 
 make

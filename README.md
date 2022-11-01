@@ -8,9 +8,8 @@ This repository is used to track / automate the assests in the OSDU Lab.
 # install python, pip, virtualenv, and make
 sudo yum -y install python3 python3-pip python3-virtualenv make
 
-# save the vault pass
-mkdir scratch
-echo 'the-actual-vault-pass' > scratch/vault_pass.txt
+# export the vault pass (NOTE THE LEADING SPACE)
+ export ANSIBLE_VAULT_PASSWORD='the-actual-vault-pass'
 
 # log in to the Red Hat Registry to be able to use an official EE base image
 # best practice is to use a service account: https://access.redhat.com/terms-based-registry/#/
