@@ -34,12 +34,12 @@ if $missing_prereqs; then
     exit 1
 fi
 
-if [ ! -f scratch/vault_pass.txt ]; then
-    echo "You should put the vault password in ${PWD}/scratch/vault_pass.txt." >&2
-    read -rspn1 'Press any key to continue.'; echo
-fi
+export ANSIBLE_VAULT_PASSWORD_FILE="${ANSIBLE_VAULT_PASSWORD_FILE:-scratch/vault_pass.txt}"
 
-export ANSIBLE_VAULT_PASSWORD_FILE=scratch/vault_pass.txt
+if [ ! -f "${ANSIBLE_VAULT_PASSWORD_FILE}" ]; then
+    echo "You should put the vault password in ${ANSIBLE_VAULT_PASSWORD_FILE}" >&2
+    read -rsn1p 'Press any key to continue.' _; echo
+fi
 
 make
 
