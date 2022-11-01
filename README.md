@@ -34,10 +34,10 @@ ssh-add ~/.ssh/id_rsa   # or whatever the path to your keys is
 Run a playbook using run.sh to ensure the EE is up to date with any collection changes you've made and leverage ansible-navigator to run a playbook in the EE with the environment pre-prepped:
 
 ```
-./run.sh playbooks/ping.yml --limit bastion_public
+./run.sh ping.yml --limit bastion_public
 ```
 
-All arguments to run.sh are passed directly to `ansible-navigator run`, which passes them directly to `ansible-playbook` - meaning any arguments to `run.sh` should be exactly as you're used to running them with `ansible-playbook`.
+The first argument to run.sh is a playbook in the `playbooks` directory. It can be specified with or without a `.yml` extension. All remaining arguments are passed after the playbook name directly to `ansible-navigator run`, which passes them directly to `ansible-playbook` - meaning any arguments to `run.sh` should be exactly as you're used to running them with `ansible-playbook` (as long as the playbook comes first).
 
 ## Pulling the execution environment and a playbook from the repo on an endpoint directly
 

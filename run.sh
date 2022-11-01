@@ -43,4 +43,15 @@ export ANSIBLE_VAULT_PASSWORD_FILE=scratch/vault_pass.txt
 
 make
 
-venv/bin/ansible-navigator run "${@}"
+playbook="playbooks/$1"
+shift
+if [ -e "$playbook.yml" ]; then
+    playbook="$playbook.yml"
+elif [ -e "$playbook" ]; then
+    true
+else
+    echo "Unable to find playbook: $playbook" >&2
+    exit 1
+fi
+
+venv/bin/ansible-navigator run "$playbook" "${@}"
