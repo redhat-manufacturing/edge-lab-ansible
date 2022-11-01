@@ -5,9 +5,7 @@ ansible-navigator:
       path: ansible.cfg
     inventory:
       entries:
-      - inventory/infra
-      - inventory/nodes
-      - inventory/se350
+      - ./inventory
   execution-environment:
     container-options:
     - --privileged
