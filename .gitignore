@@ -54,9 +54,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-# an inventory you can keep locally to connect to libvirt instances to `--limit` your playbook runs
-inventory/testing
-inventory/group_vars/testing
 
 # Translations
 *.mo
