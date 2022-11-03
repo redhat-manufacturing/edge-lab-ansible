@@ -3,3 +3,11 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/cory") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/tmoore") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/jharmison") }}'
+
+git_ssh_key: '{{ vault_git_ssh_key }}'
+
+ee_registry: registry.jharmison.com
+ee_repo: osdu-lab/infra
+ee_tag: latest
+ee_pull_user: puller
+ee_pull_password: '{{ vault_ee_pull_password }}'

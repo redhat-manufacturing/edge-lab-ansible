@@ -1,0 +1,13 @@
+[Unit]
+Description=Ansible configuration via ansible-pull inside an EE with ansible-navigator
+Requires=ansible-pull.service
+
+[Timer]
+Unit=ansible-pull.service
+# Every boot
+OnBootSec=15min
+# Hourly
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

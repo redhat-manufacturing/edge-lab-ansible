@@ -1,0 +1,15 @@
+---
+- name: Enable the AAP repositories
+  become: true
+  community.general.ini_file:
+    path: /etc/yum.repos.d/redhat.repo
+    section: ansible-automation-platform-2.2-for-rhel-8-x86_64-rpms
+    option: enabled
+    value: 1
+    create: false
+
+- name: Ensure ansible-navigator is installed and updated
+  become: true
+  ansible.builtin.dnf:
+    name: ansible-navigator
+    state: latest

@@ -1,0 +1,6 @@
+---
+- name: Ensure ansible-navigator is installed and updated via pip
+  become: yes
+  ansible.builtin.pip:
+    name: ansible-navigator
+    state: latest
