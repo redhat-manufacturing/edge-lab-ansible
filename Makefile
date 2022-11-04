@@ -10,7 +10,7 @@ REPOSITORY := osdu-lab/infra
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
 # makes it so that the Makefile will rebuild only what it needs to every time there's a change.
-SRC_YAML := $(wildcard collection/roles/*/*/*.yml)
+SRC_YAML := $(wildcard collection/roles/*/*/*.yml collection/roles/*/*/*/*.yml collection/roles/*/*/*/*/*.yml)
 SRC := collection/requirements.txt collection/bindep.txt $(SRC_YAML) $(wildcard collection/roles/*/*/*.j2)
 
 all: ee
