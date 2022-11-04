@@ -77,10 +77,10 @@
   become: true
   ansible.builtin.copy:
     src: '{{ item.src }}'
-    dest: '{{ item.dest|default("/etc/systemd/system/" + item.src) }}'
+    dest: '{{ item.dest | default("/etc/systemd/system/" + item.src) }}'
     owner: root
     group: root
-    mode: '{{ item.mode|default("0644") }}'
+    mode: '{{ item.mode | default("0644") }}'
   notify: restart service
   loop:
   - src: ansible-pull.service

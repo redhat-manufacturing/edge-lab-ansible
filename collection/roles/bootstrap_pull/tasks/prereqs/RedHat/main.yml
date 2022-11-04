@@ -4,4 +4,4 @@
   ansible.builtin.dnf:
     name:
     - podman
-    state: latest
+    state: installed
