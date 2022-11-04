@@ -24,11 +24,12 @@ run_playbook() {
 }
 
 update_project() {
+    keyscan='if [ ! -n "$(grep "^github.com" ~/.ssh/known_hosts)" ]; then ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; fi'
     if [ -d "$ANSIBLE_PULL_PATH/.git" ]; then
-        script="cd /runner/project && git checkout ${ANSIBLE_PULL_CHECKOUT} && git pull"
+        script="$keyscan ; cd /runner/project && git checkout ${ANSIBLE_PULL_CHECKOUT} && git pull"
     else
         mkdir -p "$ANSIBLE_PULL_PATH"
-        script="cd /runner/project && git clone -b ${ANSIBLE_PULL_CHECKOUT} --depth=1 --recurse-submodules ${ANSIBLE_PULL_REPO} ."
+        script="$keyscan ; cd /runner/project && git clone -b ${ANSIBLE_PULL_CHECKOUT} --depth=1 --recurse-submodules ${ANSIBLE_PULL_REPO} ."
     fi
     ${RUNTIME} run --pull always "${runtime_args[@]}" --entrypoint bash "${AAP_EE_IMAGE}" -c "${script}"
 }
