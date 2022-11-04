@@ -1,0 +1,13 @@
+---
+- name: Ensure that systemd is reloaded
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+  listen: restart service
+
+- name: Rerun the ansible-pull systemd unit
+  become: true
+  ansible.builtin.systemd:
+    name: ansible-pull.service
+    state: restarted
+  listen: restart service

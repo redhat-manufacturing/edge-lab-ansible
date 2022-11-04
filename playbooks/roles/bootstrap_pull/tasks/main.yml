@@ -80,6 +80,7 @@
     owner: root
     group: root
     mode: '{{ item.mode|default("0644") }}'
+  notify: restart service
   loop:
   - src: ansible-pull.service
   - src: ansible-pull.timer
@@ -92,3 +93,12 @@
     user: '{{ ansible_user }}'
     state: present
     key: '{{ git_ssh_pub_key }}'
+
+- name: Handle changes to systemd services
+  ansible.builtin.meta: flush_handlers
+
+- name: Ensure that the systemd timer is enabled
+  ansible.builtin.systemd:
+    name: ansible-pull.timer
+    enabled: true
+    state: started
