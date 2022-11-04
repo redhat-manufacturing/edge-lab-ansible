@@ -38,60 +38,37 @@ Run a playbook using run.sh to ensure the EE is up to date with any collection c
 
 The first argument to run.sh is a playbook in the `playbooks` directory. It can be specified with or without a `.yml` extension. All remaining arguments are passed after the playbook name directly to `ansible-navigator run`, which passes them directly to `ansible-playbook` - meaning any arguments to `run.sh` should be exactly as you're used to running them with `ansible-playbook` (as long as the playbook comes first).
 
-## Pulling the execution environment and a playbook from the repo on an endpoint directly
+## Running playbooks from the repo on an endpoint continuously in pull mode
 
-Run all of the following as the root user (as this will be done via a systemd unit soon).
+Ensure that the things you'd like per group or host are configured in the following variables:
 
-Enable the AAP repositories and install ansible-navigator:
+```yaml
+ee_registry: registry.jharmison.com # the registry where you pushed the built EE collection
+ee_repo: osdu-lab/infra # the container image repo in that registry
+ee_tag: latest # the tag you'd like to follow
 
-```
-dnf config-manager --set-enabled ansible-automation-platform-2.2-for-rhel-8-x86_64-rpms
-dnf -y install ansible-navigator
-```
+config_setup_dir: /etc/osdu-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
 
-Place the ansible-navigator configuration file to pull the execution environment somewhere:
+ee_pull_user: puller # the user that can pull the EE image
+ee_pull_password: <whatever> # the password for that user
 
-```
-ANSIBLE_NAVIGATOR_CONFIG=/etc/ansible-navigator.yml
-cat << 'EOF' > $ANSIBLE_NAVIGATOR_CONFIG
-ansible-navigator:
-  execution-environment:
-    container-options:
-    - --privileged
-    - --security-opt=label=disable
-    enabled: true
-    image: registry.jharmison.com/osdu-lab/infra:latest
-  logging:
-    append: true
-    file: /var/log/ansible-navigator.log
-  mode: stdout
-  playbook-artifact:
-    enable: false
-EOF
+# the playbooks you want the host to run regularly on itself
+ansible_pull_playbooks:
+- playbooks/configure_ssh.yml
+
+# the repo you want tracked
+ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/osdu-lab-ansible.git
+# the branch/tag/etc. you want tracked
+ansible_pull_checkout: main
+
+# the location to pull to
+ansible_pull_path: /var/lib/osdu-lab
 ```
 
-Set up the vault password, log in to the registry, and ensure that an SSH key is configured to sign in to git:
+Ensure that you follow all other steps for leveraging the `run.sh` script (like the exported vault password) and run the following:
 
-```
-echo 'the actual vault password' > /root/vault_pass.txt
-podman login registry.jharmison.com  # a service account has been created that can pull from here, will be in vaulted secrets soon
-mkdir -p ~/.ssh
-cat << 'EOF' > ~/.ssh/id_rsa
------BEGIN OPENSSH PRIVATE KEY-----
-b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
-[...]  # put an actual SSH key here
------END OPENSSH PRIVATE KEY-----
-EOF
-chmod -R u=rwX,g=,o= ~/.ssh
-```
-
-Run ansible-navigator with the config and vault environment variables exported:
-
-```
-export ANSIBLE_NAVIGATOR_CONFIG
-export ANSIBLE_VAULT_PASSWORD_FILE=/root/vault_pass.txt
-# the following playbook is an example of how to use ansible-pull with ansible-navigator and not the thing I would expect you to run
-ansible-navigator exec -- ansible-pull -U https://github.com/redhat-manufacturing/osdu-lab-ansible.git playbooks/ping.yml --limit bastion -c local
+```sh
+./run.sh setup.yml --limit <host or group> -e vault_password="${ANSIBLE_VAULT_PASSWORD}"
 ```
 
 ## Adhoc Commands
