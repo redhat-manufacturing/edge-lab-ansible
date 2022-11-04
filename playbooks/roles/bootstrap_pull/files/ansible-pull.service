@@ -1,13 +1,11 @@
 [Unit]
-Description=Ansible configuration via ansible-pull inside an EE with ansible-navigator
+Description=Ansible configuration via ansible-pull inside an EE
 Requires=NetworkManager-wait-online.service
 After=NetworkManager-wait-online.service
-Wants=ansible-pull.timer
 
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/systemd/system/ansible-pull.env
-ExecStart=
 ExecStart=/usr/local/bin/ansible-pull.sh
 
 [Install]

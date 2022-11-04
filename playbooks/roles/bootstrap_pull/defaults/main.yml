@@ -10,10 +10,13 @@ config_setup_dir: /etc/osdu-lab
 ee_pull_authfile: '{{ config_setup_dir }}/ee-pull.json'
 ee_pull_user: puller
 
-ansible_navigator_config_path: '{{ config_setup_dir }}/ansible-navigator.yml'
-ansible_navigator_vault_password_path: '{{ config_setup_dir }}/vault-password'
+ansible_vault_password_path: '{{ config_setup_dir }}/vault-password'
 
 ansible_pull_playbooks:
 - playbooks/configure_ssh.yml
 
 ansible_pull_extra_args: ""
+ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/osdu-lab-ansible.git
+ansible_pull_checkout: feature/ssh-config
+
+ansible_pull_path: /var/lib/osdu-lab

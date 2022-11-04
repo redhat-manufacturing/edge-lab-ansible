@@ -1,5 +1,5 @@
 [Unit]
-Description=Ansible configuration via ansible-pull inside an EE with ansible-navigator
+Description=Ansible configuration via ansible-pull inside an EE
 Requires=ansible-pull.service
 
 [Timer]

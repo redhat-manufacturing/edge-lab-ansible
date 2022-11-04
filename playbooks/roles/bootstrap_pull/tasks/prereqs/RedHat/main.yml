@@ -1,7 +1,7 @@
 ---
 - name: Ensure podman is installed and updated
   become: true
-  ansible.builtin.package:
+  ansible.builtin.dnf:
     name:
     - podman
     state: latest

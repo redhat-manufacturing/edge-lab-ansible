@@ -1,5 +1,5 @@
 ---
-- name: Ensure ansible-navigator is installed using default means
+- name: Ensure container runtime is installed using distribution-specific means
   ansible.builtin.include_tasks:
     file: '{{ item }}'
   with_first_found:
@@ -9,6 +9,7 @@
     - prereqs/main.yml
 
 - name: Ensure that directories exist
+  become: true
   ansible.builtin.file:
     state: directory
     path: '{{ item | dirname }}'
@@ -17,23 +18,16 @@
     mode: '0755'
   loop:
   - '{{ ee_pull_authfile }}'
-  - '{{ ansible_navigator_config_path }}'
-  - '{{ ansible_navigator_vault_password_path }}'
+  - '{{ ansible_vault_password_path }}'
 
 - name: Ensure the vault password is in place and readable only by root
   become: true
   ansible.builtin.copy:
     content: '{{ vault_password }}'
-    dest: '{{ ansible_navigator_vault_password_path }}'
+    dest: '{{ ansible_vault_password_path }}'
     owner: root
     group: root
     mode: '0600'
-
-- name: Template the ansible-navigator configuration
-  become: true
-  ansible.builtin.template:
-    src: ansible-navigator.yml.j2
-    dest: '{{ ansible_navigator_config_path }}'
 
 - name: Ensure the root SSH directory is prepared
   become: true
@@ -47,19 +41,17 @@
 - name: Ensure that the SSH key for accessing the repo is available
   become: true
   ansible.builtin.copy:
-    content: '{{ git_ssh_key }}'
-    dest: /root/.ssh/id_rsa
+    content: '{{ item.content }}'
+    dest: /root/.ssh/{{ item.dest }}
     owner: root
     group: root
+    mode: '{{ item.mode }}'
+  loop:
+  - content: '{{ git_ssh_key }}'
+    dest: id_rsa
     mode: '0400'
-
-- name: Ensure that the public SSH key for accessing the repo is in place
-  become: true
-  ansible.builtin.copy:
-    content: '{{ git_ssh_pub_key }}'
-    dest: /root/.ssh/id_rsa.pub
-    owner: root
-    group: root
+  - content: '{{ git_ssh_pub_key }}'
+    dest: id_rsa.pub
     mode: '0644'
 
 - name: Ensure that the user can authenticate against the registry

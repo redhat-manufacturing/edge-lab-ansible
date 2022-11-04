@@ -1,15 +1,16 @@
 ---
-- name: Enable the AAP repositories
+- name: Ensure the AppStream repositories are enabled
   become: true
   community.general.ini_file:
     path: /etc/yum.repos.d/redhat.repo
-    section: ansible-automation-platform-2.2-for-rhel-8-x86_64-rpms
+    section: rhel-8-for-x86_64-appstream-rpms
     option: enabled
     value: 1
     create: false
 
-- name: Ensure ansible-navigator is installed and updated
+- name: Ensure podman is installed and updated
   become: true
   ansible.builtin.dnf:
-    name: ansible-navigator
+    name:
+    - podman
     state: latest
