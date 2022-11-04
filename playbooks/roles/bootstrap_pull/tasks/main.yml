@@ -46,6 +46,7 @@
     owner: root
     group: root
     mode: '{{ item.mode }}'
+  no_log: true
   loop:
   - content: '{{ git_ssh_key }}'
     dest: id_rsa
