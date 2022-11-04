@@ -53,6 +53,15 @@
     group: root
     mode: '0400'
 
+- name: Ensure that the public SSH key for accessing the repo is in place
+  become: true
+  ansible.builtin.copy:
+    content: '{{ git_ssh_pub_key }}'
+    dest: /root/.ssh/id_rsa.pub
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Ensure that the user can authenticate against the registry
   become: true
   ansible.builtin.template:
@@ -85,3 +94,9 @@
   - src: ansible-pull.sh
     dest: /usr/local/bin/ansible-pull.sh
     mode: '0700'
+
+- name: Ensure that our EE can SSH into the user
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    state: present
+    key: '{{ git_ssh_pub_key }}'

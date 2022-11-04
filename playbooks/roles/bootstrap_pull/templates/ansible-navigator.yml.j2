@@ -4,12 +4,14 @@ ansible-navigator:
     enabled: true
     image: {{ ee_image }}
     volume-mounts:
-    - src: "{{ ansible_navigator_vault_password_path }}"
-      dest: "{{ ansible_navigator_vault_password_path }}"
+    - src: "{{ config_setup_dir }}"
+      dest: "{{ config_setup_dir }}"
+    environment-variables:
+      pass:
+      - ANSIBLE_VAULT_PASSWORD_FILE
     container-options:
     - --privileged
     - --security-opt=label=disable
-    - --net=host
     pull:
       arguments:
       - --authfile={{ ee_pull_authfile }}
