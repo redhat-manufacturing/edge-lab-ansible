@@ -17,6 +17,6 @@ ansible_pull_playbooks:
 
 ansible_pull_extra_args: ""
 ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/osdu-lab-ansible.git
-ansible_pull_checkout: feature/ssh-config
+ansible_pull_checkout: main
 
 ansible_pull_path: /var/lib/osdu-lab
