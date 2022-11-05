@@ -84,17 +84,6 @@ ansible se350_bmc -m raw -a 'led'
 
 # infra network scan
 nmap -sn 10.1.{2,5}.*
-
-# dump network configs
-ssh 10.1.2.1 "export terse" > files/router_cfg
-ssh 10.1.2.2 "export terse" > files/switch_cfg
-
-# clean network configs
-egrep -v 'secret' files/router_cfg > files/router_cfg.cleaned
-egrep -v 'secret' files/switch_cfg > files/switch_cfg.cleaned
-
-# encrypt full config
-ansible-vault encrypt files/*_cfg
 ```
 
 ## Topics
