@@ -51,7 +51,7 @@ lint: venv/bin/yamllint venv/bin/ansible-lint $(SRC_YAML)
 #                               COLLECTION                                   #
 ##############################################################################
 VERSION: .pip-prereqs $(SRC)
-	@venv/bin/python -m setuptools_scm 2>/dev/null | gawk -F+ '{gsub(/\.dev/, "-dev", $1); gsub(/^[0-9]\.[0-9]-/, "&.0", $1); gsub(/-\.0dev/, ".0-dev", $1); print $1}'
+	@venv/bin/python -m setuptools_scm 2>/dev/null | gawk -F+ '{gsub(/\.dev/, "-dev", $$1); gsub(/^[0-9]\.[0-9]-/, "&.0", $$1); gsub(/-\.0dev/, ".0-dev", $$1); print $$1}' > VERSION
 
 collection/galaxy.yml: venv/bin/yasha VERSION
 	-rm -f collection/galaxy.yml
