@@ -51,7 +51,7 @@ lint: venv/bin/yamllint venv/bin/ansible-lint $(SRC_YAML)
 #                               COLLECTION                                   #
 ##############################################################################
 VERSION: .pip-prereqs $(SRC)
-	@venv/bin/python -m setuptools_scm 2>/dev/null | sed -e 's/\.\(dev[^+]\+\).*$$/-\1/' -e 's/^\([0-9]\.[0-9]\)-/\1.0-/' > VERSION
+	@venv/bin/python -m setuptools_scm 2>/dev/null | gawk -F+ '{gsub(/\.dev/, "-dev", $1); gsub(/^[0-9]\.[0-9]-/, "&.0", $1); gsub(/-\.0dev/, ".0-dev", $1); print $1}'
 
 collection/galaxy.yml: venv/bin/yasha VERSION
 	-rm -f collection/galaxy.yml
@@ -92,7 +92,7 @@ publish: .ee-published
 #                                 CLEANUP                                    #
 ##############################################################################
 clean:
-	rm -rf osdu_lab-*.tar.gz .collection collection/galaxy.yml
+	rm -rf osdu_lab-*.tar.gz .collection collection/galaxy.yml VERSION
 .PHONY: clean
 
 realclean: clean clean-prereqs
