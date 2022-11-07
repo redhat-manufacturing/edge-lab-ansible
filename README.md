@@ -94,4 +94,3 @@ nmap -sn 10.1.{2,5}.*
 
 ## Other Links
 
-- [vbmc 4 vsphere](https://github.com/kurokobo/virtualbmc-for-vsphere)
