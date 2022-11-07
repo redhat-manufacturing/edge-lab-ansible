@@ -73,8 +73,9 @@ collection: .collection
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
-	  && ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t $(REGISTRY)/$(REPOSITORY):$$(cat ../VERSION)
-	$(RUNTIME) tag $(REGISTRY)/$(REPOSITORY):$$(cat VERSION) $(REGISTRY)/$(REPOSITORY):latest
+		&& ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t localhost/osdu_lab-infra:latest
+	$(RUNTIME) tag localhost/osdu_lab-infra:latest $(REGISTRY)/$(REPOSITORY):$$(cat ../VERSION)
+	$(RUNTIME) tag localhost/osdu_lab-infra:latest $(REGISTRY)/$(REPOSITORY):latest
 	touch .ee-built
 
 .ee-published: .ee-built
