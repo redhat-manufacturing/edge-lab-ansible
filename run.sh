@@ -10,7 +10,6 @@ bin_prereqs=(
 )
 
 python_prereqs=(
-    virtualenv
     pip
 )
 
