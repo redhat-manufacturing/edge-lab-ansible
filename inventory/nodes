@@ -3,7 +3,7 @@
 # 192.168.30.3 ansible_user=root
 
 [bastion_public]
-osdu.coreapp.run ansible_user=ansible
+bastion.edgelab.online ansible_user=ansible
 
 [bastion]
 192.168.10.20
