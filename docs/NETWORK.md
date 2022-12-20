@@ -3,18 +3,9 @@
 ## Main Devices
 UniFi
 
-Primary Router (RouterOS)
-- 192.168.1.1
-
-24 x 10Gb Switch (RouterOS)
-- 192.168.2.2
-
-48 x 1Gb Switch OoB (Cisco)
-- ??? / NA
-
 ## Router Internet IPs
 ```
-x.x.x.x/29
+x.x.x.x/xx
 
 Net: x.x.x.x
 Gateway: x.x.x.x
@@ -53,4 +44,3 @@ Network         | Assignment   | DHCP Range
 192.168.10.0/24 | Management   | 20-250
 192.168.30.0/24 | Servers      | 20-250
 ```
-

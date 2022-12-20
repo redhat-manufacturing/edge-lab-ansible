@@ -31,39 +31,3 @@ systemctl start fail2ban
 ```
 
 See [files/etc/fail2ban/jail.d](files/etc/fail2ban/jail.d) for examples.
-
-## Install google authenticator
-```
-dnf -y install google-authenticator qrencode
-```
-
-Create `/etc/security/access-otp.conf` to allow SSH inside the lab without OTP.
-
-```
-+ : ALL : 127.0.0.0/8
-+ : ALL : 10.0.0.0/8
-+ : ALL : 192.168.0.0/16
-- : (sudo) : ALL
-- : ALL : ALL
-```
-
-Update `/etc/pam.d/sshd`
-```
-...
-auth       substack     password-auth
-auth       include      postlogin
-
-# begin google-authenticator
-auth       [success=1 default=ignore] pam_access.so accessfile=/etc/security/access-otp.conf
-auth       required                   pam_google_authenticator.so secret=/home/${USER}/.ssh/.google_authenticator nullok no_increment_hotp [authtok_prompt=OTP Code: ]
-# end google-authenticator
-...
-```
-
-Update `/etc/ssh/sshd_config`
-```
-ChallengeResponseAuthentication yes
-#AuthenticationMethods publickey,keyboard-interactive
-```
-
-Note: You will need to mv `~/.google_authenticator` to `~/.ssh/` to activate OTP (moved from default location because of selinux)
