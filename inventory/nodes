@@ -3,7 +3,7 @@
 # 192.168.30.3 ansible_user=root
 
 [bastion_public]
-bastion.edgelab.online ansible_user=ansible
+bastion.hou.edgelab.online ansible_user=ansible
 
 [bastion]
 192.168.10.20

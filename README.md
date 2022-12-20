@@ -20,7 +20,7 @@ docker login registry.redhat.io
 # premake the EE if you like
 make
 
-# ensure that your ssh-agent has your SSH key for connecting to bastion.edgelab.online
+# ensure that your ssh-agent has your SSH key for connecting to bastion.hou.edgelab.online
 ssh-add -L
 
 # ONLY IF YOU NEED TO: start the ssh-agent and/or add the appropriate key

@@ -17,7 +17,7 @@ router
 [infra:children]
 
 [bastion_public]
-bastion.edgelab.online ansible_user=ansible
+bastion.hou.edgelab.online ansible_user=ansible
 
 [bastion]
 192.168.10.20
