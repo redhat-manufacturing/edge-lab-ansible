@@ -1,0 +1,106 @@
+---
+- name: Ensure container runtime is installed using distribution-specific means
+  ansible.builtin.include_tasks:
+    file: '{{ item }}'
+  with_first_found:
+  - files:
+    - prereqs/{{ ansible_distribution }}/{{ ansible_distribution_major_version }}/main.yml
+    - prereqs/{{ ansible_distribution }}/main.yml
+    - prereqs/main.yml
+
+- name: Ensure that directories exist
+  become: true
+  ansible.builtin.file:
+    state: directory
+    path: '{{ item | dirname }}'
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+  - '{{ ee_pull_authfile }}'
+  - '{{ ansible_vault_password_path }}'
+
+- name: Ensure the vault password is in place and readable only by root
+  become: true
+  ansible.builtin.copy:
+    content: '{{ vault_password }}'
+    dest: '{{ ansible_vault_password_path }}'
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Ensure the root SSH directory is prepared
+  become: true
+  ansible.builtin.file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Ensure that the SSH key for accessing the repo is available
+  become: true
+  ansible.builtin.copy:
+    content: '{{ item.content }}'
+    dest: /root/.ssh/{{ item.dest }}
+    owner: root
+    group: root
+    mode: '{{ item.mode }}'
+  no_log: true
+  loop:
+  - content: '{{ git_ssh_key }}'
+    dest: id_rsa
+    mode: '0400'
+  - content: '{{ git_ssh_pub_key }}'
+    dest: id_rsa.pub
+    mode: '0644'
+
+- name: Ensure that the user can authenticate against the registry
+  become: true
+  ansible.builtin.template:
+    src: ee-pull.json.j2
+    dest: '{{ ee_pull_authfile }}'
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Ensure that the systemd unit environment file exists
+  become: true
+  ansible.builtin.template:
+    src: ansible-pull.env.j2
+    dest: /etc/systemd/system/ansible-pull.env
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Ensure that the systemd unit and exec script exist
+  become: true
+  ansible.builtin.copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest | default("/etc/systemd/system/" + item.src) }}'
+    owner: root
+    group: root
+    mode: '{{ item.mode | default("0644") }}'
+  notify: restart service
+  loop:
+  - src: ansible-pull.service
+  - src: ansible-pull.timer
+  - src: ansible-pull.sh
+    dest: /usr/local/bin/ansible-pull.sh
+    mode: '0700'
+
+- name: Ensure that our EE can SSH into the user
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    state: present
+    key: '{{ git_ssh_pub_key }}'
+
+- name: Handle changes to systemd services
+  ansible.builtin.meta: flush_handlers
+
+- name: Ensure that the systemd timer is enabled
+  become: true
+  ansible.builtin.systemd:
+    name: ansible-pull.timer
+    enabled: true
+    state: started

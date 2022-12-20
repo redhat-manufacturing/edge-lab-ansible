@@ -1,0 +1,6 @@
+---
+- name: Ensure that systemd is reloaded
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+  listen: restart service

@@ -1,0 +1,41 @@
+---
+- name: Update the authorized keys for the selected users
+  ansible.posix.authorized_key:
+    user: '{{ item }}'
+    state: present
+    exclusive: yes
+    key: |-
+      {% for desired_group in desired_groups %}
+      {% for key in ssh_config_authorized_keys[desired_group] %}
+      {{ key }}
+      {% endfor %}
+      {% endfor %}
+  loop: '{{ ssh_config_users }}'
+
+- name: Ensure the SSHD configuration from a directory
+  ansible.builtin.lineinfile:
+    state: present
+    path: /etc/ssh/sshd_config
+    line: Include /etc/ssh/sshd_config.d/*.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: restart sshd
+
+- name: Ensure SSHD configuration directory exists
+  ansible.builtin.file:
+    state: directory
+    path: /etc/ssh/sshd_config.d
+    owner: root
+    group: root
+    mode: '0700'
+  notify: restart sshd
+
+- name: Drop SSHD configuration snippets
+  ansible.builtin.copy:
+    src: 99-lockdown.conf
+    dest: /etc/ssh/sshd_config.d/
+    owner: root
+    group: root
+    mode: '0600'
+  notify: restart sshd

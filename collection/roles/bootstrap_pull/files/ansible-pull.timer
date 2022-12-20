@@ -1,0 +1,13 @@
+[Unit]
+Description=Timer for Ansible configuration inside an EE
+Requires=ansible-pull.service
+
+[Timer]
+Unit=ansible-pull.service
+# Every boot
+OnBootSec=15min
+# Hourly
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

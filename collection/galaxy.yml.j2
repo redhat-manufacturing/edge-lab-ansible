@@ -1,0 +1,23 @@
+---
+namespace: osdu_lab
+name: infra
+version: "{{ VERSION }}"
+readme: README.md
+authors:
+- "James Harmison <jharmison@redhat.com>"
+- "Cory Latschkowski <clatschk@redhat.com>"
+dependencies:
+  ansible.posix: ">=1.4.0,<1.5.0"
+  containers.podman: ">=1.9.4,<1.10.0"
+  community.general: ">=5.6.0,<6.0.0"
+license:
+- BSD-2-Clause
+tags:
+- ics
+- scada
+- redhat
+repository: https://github.com/redhat-manufacturing/osdu-lab-ansible
+build_ignore:
+- '*.swp'
+- tags
+- '*.tar.gz'

@@ -1,0 +1,16 @@
+---
+- name: Ensure the AppStream repositories are enabled
+  become: true
+  community.general.ini_file:
+    path: /etc/yum.repos.d/redhat.repo
+    section: rhel-8-for-x86_64-appstream-rpms
+    option: enabled
+    value: 1
+    create: false
+
+- name: Ensure podman is installed and updated
+  become: true
+  ansible.builtin.dnf:
+    name:
+    - podman
+    state: latest

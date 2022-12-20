@@ -1,0 +1,12 @@
+[Unit]
+Description=Service for Ansible configuration inside an EE
+Requires=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/systemd/system/ansible-pull.env
+ExecStart=/usr/local/bin/ansible-pull.sh
+
+[Install]
+WantedBy=default.target

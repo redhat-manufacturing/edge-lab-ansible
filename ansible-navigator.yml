@@ -1,0 +1,22 @@
+---
+ansible-navigator:
+  ansible:
+    config:
+      path: ansible.cfg
+    inventory:
+      entries:
+      - ./inventory
+  execution-environment:
+    container-options:
+    - --privileged
+    - --security-opt=label=disable
+    enabled: true
+    image: localhost/osdu_lab-infra:latest
+    pull:
+      policy: never
+  logging:
+    append: true
+    file: ansible-navigator.log
+  mode: stdout
+  playbook-artifact:
+    enable: false
