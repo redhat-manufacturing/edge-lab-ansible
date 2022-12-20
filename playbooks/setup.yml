@@ -5,4 +5,4 @@
   - name: vault_password
     prompt: What is the Ansible Vault password (needed to drop on the configured host)?
   roles:
-  - bootstrap_pull
+  - osdu_lab.infra.bootstrap_pull

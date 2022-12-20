@@ -10,6 +10,9 @@ ansible-navigator:
     container-options:
     - --privileged
     - --security-opt=label=disable
+    volume-mounts:
+      - dest: /var/home/core
+        src: /Users/cory
     enabled: true
     image: localhost/osdu_lab-infra:latest
     pull:
