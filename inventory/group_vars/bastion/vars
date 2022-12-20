@@ -1,2 +1,3 @@
 ssh_config_users:
 - ansible
+ansible_user: ansible
