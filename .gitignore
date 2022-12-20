@@ -54,6 +54,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+# an inventory you can keep locally to connect to libvirt instances to `--limit` your playbook runs
+inventory/testing
+inventory/group_vars/testing
 
 # Translations
 *.mo
@@ -141,3 +144,18 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# VIM/Ctags
+tags
+*.swp
+
+# Makefile artifacts
+.pip-prereqs
+.collection
+.ee-built
+.ee-published
+VERSION
+
+# Collection artifacts
+osdu_lab-*.tar.gz
+collection/galaxy.yml
+execution-environment/context

@@ -17,7 +17,7 @@ router
 [infra:children]
 
 [bastion_public]
-osdu.coreapp.run ansible_user=ansible
+bastion.hou.edgelab.online
 
 [bastion]
 192.168.10.20

@@ -1,0 +1,5 @@
+---
+collections:
+  - name: osdu_lab.infra
+    source: /extras/osdu_lab-infra-latest.tar.gz
+    type: file

@@ -1,0 +1,2 @@
+# Place requirements for pip installed packages here
+paramiko >=2.11.0, <3.0.0

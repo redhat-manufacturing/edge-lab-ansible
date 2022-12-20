@@ -1,5 +1,0 @@
-ansible==2.10.*
-paramiko
-selinux
-yamllint
-pyspelling
