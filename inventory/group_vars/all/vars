@@ -1,5 +1,6 @@
 ssh_config_authorized_keys:
   redhat:
+  - '{{ lookup("file", playbook_dir + "/../files/pubkeys/ansible-pull") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/cory") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/tmoore") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/jharmison") }}'
