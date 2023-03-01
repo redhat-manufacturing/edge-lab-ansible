@@ -3,6 +3,7 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/ansible-pull") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/ablock") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/cory") }}'
+  - '{{ lookup("file", playbook_dir + "/../files/pubkeys/example") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/tmoore") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/jharmison") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/thall") }}'
