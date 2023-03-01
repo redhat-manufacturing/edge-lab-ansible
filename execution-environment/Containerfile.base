@@ -1,3 +1,7 @@
 FROM registry.redhat.io/ansible-automation-platform-22/ee-minimal-rhel8:latest
 
+LABEL org.opencontainers.image.source=https://github.com/redhat-manufacturing/edge-lab-ansible
+LABEL org.opencontainers.image.description="Ansible Execution Environment"
+# LABEL org.opencontainers.image.licenses=MIT
+
 COPY edge_lab-infra-latest.tar.gz /extras/
