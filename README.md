@@ -1,6 +1,6 @@
-# Houston edge lab info
+# Houston Edge Lab Info
 
-This repository is used to track / automate the assests in the OSDU Lab.
+This repository is used to track / automate the assets in the edge Lab.
 
 ## Lab Access
 
@@ -52,10 +52,10 @@ Ensure that the things you'd like per group or host are configured in the follow
 
 ```yaml
 ee_registry: registry.jharmison.com # the registry where you pushed the built EE collection
-ee_repo: osdu-lab/infra # the container image repo in that registry
+ee_repo: edge-lab/infra # the container image repo in that registry
 ee_tag: latest # the tag you'd like to follow
 
-config_setup_dir: /etc/osdu-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
+config_setup_dir: /etc/edge-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
 
 ee_pull_user: puller # the user that can pull the EE image
 ee_pull_password: <whatever> # the password for that user
@@ -65,12 +65,12 @@ ansible_pull_playbooks:
 - playbooks/configure_ssh.yml
 
 # the repo you want tracked
-ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/osdu-lab-ansible.git
+ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/edge-lab-ansible.git
 # the branch/tag/etc. you want tracked
 ansible_pull_checkout: main
 
 # the location to pull to
-ansible_pull_path: /var/lib/osdu-lab
+ansible_pull_path: /var/lib/edge-lab
 ```
 
 Ensure that you follow all other steps for leveraging the `run.sh` script (like the exported vault password) and run the following:

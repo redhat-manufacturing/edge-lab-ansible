@@ -156,6 +156,6 @@ tags
 VERSION
 
 # Collection artifacts
-osdu_lab-*.tar.gz
+edge_lab-*.tar.gz
 collection/galaxy.yml
 execution-environment/context
