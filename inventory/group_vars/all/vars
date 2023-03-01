@@ -14,5 +14,5 @@ git_ssh_pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDYzJF4u6uAJFj/j6bQ8uhSiHp
 ee_registry: ghcr.io
 ee_repo: redhat-manufacturing/edge-lab-ansible
 ee_tag: latest
-ee_pull_user: puller
+ee_pull_user: codekow
 ee_pull_password: '{{ vault_ee_pull_password }}'

@@ -8,7 +8,7 @@ ee_image: '{{ ee_registry }}/{{ ee_repo }}:{{ ee_tag }}'
 config_setup_dir: /etc/edge-lab
 
 ee_pull_authfile: '{{ config_setup_dir }}/ee-pull.json'
-ee_pull_user: puller
+ee_pull_user: codekow
 
 ansible_vault_password_path: '{{ config_setup_dir }}/vault-password'
 
