@@ -51,8 +51,8 @@ The first argument to run.sh is a playbook in the `playbooks` directory. It can 
 Ensure that the things you'd like per group or host are configured in the following variables:
 
 ```yaml
-ee_registry: registry.jharmison.com # the registry where you pushed the built EE collection
-ee_repo: edge-lab/infra # the container image repo in that registry
+ee_registry: ghcr.io # the registry where you pushed the built EE collection
+ee_repo: redhat-manufacturing/edge-lab-ansible # the container image repo in that registry
 ee_tag: latest # the tag you'd like to follow
 
 config_setup_dir: /etc/edge-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)

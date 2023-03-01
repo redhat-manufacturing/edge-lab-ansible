@@ -4,8 +4,8 @@ ifeq ($(RUNTIME),)
 $(error Unable to run without a container runtime (podman, docker) available)
 endif
 
-REGISTRY := registry.jharmison.com
-REPOSITORY := edge-lab/infra
+REGISTRY := ghcr.io
+REPOSITORY := redhat-manufacturing/edge-lab-ansible
 
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
