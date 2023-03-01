@@ -4,8 +4,8 @@ ifeq ($(RUNTIME),)
 $(error Unable to run without a container runtime (podman, docker) available)
 endif
 
-REGISTRY := registry.jharmison.com
-REPOSITORY := osdu-lab/infra
+REGISTRY := ghcr.io
+REPOSITORY := redhat-manufacturing/edge-lab-ansible
 
 # This should resolve to every file in the collection. If we add any kind of python plugin
 # at a later date, we should ensure we update SRC to glob for those files as well. Doing this
@@ -69,13 +69,13 @@ collection: .collection
 #                          EXECUTION ENVIRONMENT                             #
 ##############################################################################
 .ee-built: venv/bin/ansible-builder .collection $(wildcard execution-environment/Containerfile*) execution-environment/requirements.yml execution-environment/execution-environment.yml
-	cp osdu_lab-infra-$$(cat VERSION).tar.gz execution-environment/osdu_lab-infra-latest.tar.gz
+	cp edge_lab-infra-$$(cat VERSION).tar.gz execution-environment/edge_lab-infra-latest.tar.gz
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
 	cd execution-environment \
-		&& ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t localhost/osdu_lab-infra:latest
-	$(RUNTIME) tag localhost/osdu_lab-infra:latest $(REGISTRY)/$(REPOSITORY):$$(cat VERSION)
-	$(RUNTIME) tag localhost/osdu_lab-infra:latest $(REGISTRY)/$(REPOSITORY):latest
+		&& ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t localhost/edge_lab-infra:latest
+	$(RUNTIME) tag localhost/edge_lab-infra:latest $(REGISTRY)/$(REPOSITORY):$$(cat VERSION)
+	$(RUNTIME) tag localhost/edge_lab-infra:latest $(REGISTRY)/$(REPOSITORY):latest
 	touch .ee-built
 
 .ee-published: .ee-built
@@ -93,13 +93,13 @@ publish: .ee-published
 #                                 CLEANUP                                    #
 ##############################################################################
 clean:
-	rm -rf osdu_lab-*.tar.gz .collection collection/galaxy.yml VERSION
+	rm -rf edge_lab-*.tar.gz .collection collection/galaxy.yml VERSION
 .PHONY: clean
 
 realclean: clean clean-prereqs
-	-rm -rf .ee-built execution-environment/{context,osdu_lab-*.tar.gz}
+	-rm -rf .ee-built execution-environment/{context,edge_lab-*.tar.gz}
 	-$(RUNTIME) rmi extended-builder-image
 	-$(RUNTIME) rmi extended-base-image
-	-$(RUNTIME) rmi osdu_lab-infra:$$(cat VERSION)
+	-$(RUNTIME) rmi edge_lab-infra:$$(cat VERSION)
 	-rm -f VERSION
 .PHONY: realclean

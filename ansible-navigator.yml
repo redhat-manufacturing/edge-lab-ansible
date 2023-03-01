@@ -11,7 +11,7 @@ ansible-navigator:
     - --privileged
     - --security-opt=label=disable
     enabled: true
-    image: localhost/osdu_lab-infra:latest
+    image: localhost/edge_lab-infra:latest
     pull:
       policy: never
   logging:
