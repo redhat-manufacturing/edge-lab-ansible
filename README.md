@@ -1,6 +1,14 @@
-# OSDU lab Info
+# Houston edge lab info
 
 This repository is used to track / automate the assests in the OSDU Lab.
+
+## Lab Access
+
+See [Lab Access](docs/ACCESS.md)
+
+```
+ssh ansible@bastion.hou.edgelab.online
+```
 
 ## Quickstart
 
@@ -17,7 +25,7 @@ podman login registry.redhat.io
 # OR
 docker login registry.redhat.io
 
-# premake the EE if you like
+# pre-make the EE if you like
 make
 
 # ensure that your ssh-agent has your SSH key for connecting to bastion.hou.edgelab.online
