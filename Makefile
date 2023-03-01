@@ -97,7 +97,7 @@ clean:
 .PHONY: clean
 
 realclean: clean clean-prereqs
-	-rm -rf .ee-built execution-environment/{context,edge_lab-*.tar.gz}
+	git clean -dfx
 	-$(RUNTIME) rmi extended-builder-image
 	-$(RUNTIME) rmi extended-base-image
 	-$(RUNTIME) rmi edge_lab-infra:$$(cat VERSION)
