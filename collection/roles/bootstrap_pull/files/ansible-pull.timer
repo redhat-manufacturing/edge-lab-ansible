@@ -7,7 +7,7 @@ Unit=ansible-pull.service
 # Every boot
 OnBootSec=15min
 # Hourly
-OnUnitActiveSec=30min
+OnUnitActiveSec=20min
 
 [Install]
 WantedBy=timers.target
