@@ -57,7 +57,7 @@ ee_tag: latest # the tag you'd like to follow
 
 config_setup_dir: /etc/edge-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
 
-ee_pull_user: codekow # the user that can pull the EE image
+ee_pull_user: serviceaccount # the user that can pull the EE image
 ee_pull_password: <whatever> # the password for that user
 
 # the playbooks you want the host to run regularly on itself
