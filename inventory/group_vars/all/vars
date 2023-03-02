@@ -11,8 +11,8 @@ ssh_config_authorized_keys:
 git_ssh_key: '{{ vault_git_ssh_key }}'
 git_ssh_pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDYzJF4u6uAJFj/j6bQ8uhSiHptwK5+1DF3nPkLQx5Ol+bQFN8Fo2WUyHSymJthdG0m48jef3MsqJjBMqGXe4WBKFBvfzXnyqInIjKZe4xxNJSMQM4LXyA9ICneSa5CBHojMqzk6kq2n/4URv84NWnZ2IwYIrJD+xXXR2lkHa0ylMjgUWqwP/jUh1vieGuC3HcwlOm1qBG8vJ91Xsv+TcTft4m8950VjFyoSdNwIyTouMN9VhpoylBfPOD9Pzzifykf6ffKCWio+mE1NsKjbQOBcadRCP7s5Ltgaf9izCDNHAbnYNUVn5D2JZQoWl/+HhxYW3kAiwvtl1vp5Jbmn/P6mFDSW1RwGdKU7R/t1D3+Guwj5sS23LSVljFLX177QnvWft5qMVFUWcY/asVHiWJP9OxbBqzmouD/IdPkFNRNIIL5dN1PVJyEmQ5Ck0Og2O4QEbXDgYKQrcnIxMB7URg1d88qhhPvC/xCJthL2XEE4Rvmm5USdOI/PWpz81yy0ZgcwyL9xf4peHJWxvKFTiI7gtPjHSLbNgFA6T9Ex/ZeihCWgd9lVWXyqNBFUKsU8V9rLl9v8ar9KIAumrfwFSZCZX354sP9mfFVNYKdixExQbHEizDipbC9jHTMpuw7vlK81Q0eAABK4I/PhyE5HC/8v4+EwDshgUx0UVoxi+Hzkw== ansible-pull@edge-lab-ansible
 
-ee_registry: ghcr.io
-ee_repo: redhat-manufacturing/edge-lab-ansible
+ee_registry: default-route-openshift-image-registry.apps.hou.edgelab.online
+ee_repo: registry/edge-lab-ansible
 ee_tag: latest
 ee_pull_user: serviceaccount
 ee_pull_password: '{{ vault_ee_pull_password }}'
