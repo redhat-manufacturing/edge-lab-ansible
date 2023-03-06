@@ -1,0 +1,13 @@
+---
+collections:
+  - name: ansible.controller
+  - name: redhat_cop.aap_utilities
+  - name: redhat_cop.ah_configuration
+  - name: redhat_cop.controller_configuration
+  - name: community.general
+  - name: community.crypto
+  - name: community.postgresql
+  - name: ansible.netcommon
+  - name: edge_lab.infra
+    source: /extras/edge_lab-infra-latest.tar.gz
+    type: file

@@ -159,3 +159,6 @@ VERSION
 edge_lab-*.tar.gz
 collection/galaxy.yml
 execution-environment/context
+
+# Avoid leaking ansible.cfg
+execution-environment-aap/**/ansible.cfg
