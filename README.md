@@ -96,6 +96,7 @@ nmap -sn 10.1.{2,5}.*
 
 ## Topics
 
+- [AAP Deployment](docs/AAP_Provisioning.md)
 - [Hardening External VMs](docs/HARDENING.md)
 - [Network](docs/NETWORK.md)
 - [VPN](docs/VPN.md)
