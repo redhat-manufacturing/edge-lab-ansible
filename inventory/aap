@@ -1,0 +1,13 @@
+[aap]
+
+[aap:children]
+automationhub
+controller
+
+[controller]
+aap-controller.hou.edge.lab
+
+[automationhub]
+aap-hub.hou.edge.lab
+
+

@@ -1,0 +1,135 @@
+---
+- name: Install and configure postgres DB
+  hosts: "{{ postgres_hosts | default('automationhub') }}"
+  become: true
+  tasks:
+    - name: Assert required values provided
+      ansible.builtin.assert:
+        that:
+          - subscription_username is defined
+          - subscription_username | length > 0
+          - subscription_password is defined
+          - subscription_password | length > 0
+
+    - name: Include AAP variables
+      ansible.builtin.include_vars:
+       file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
+
+    - name: Register Instances
+      community.general.redhat_subscription:
+        state: present
+        username: "{{ subscription_username }}"
+        password: "{{ subscription_password }}"
+        auto_attach: true
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['aap'] }}"
+
+    - name: Enable RHSM repositories
+      community.general.rhsm_repository:
+        name: "{{ vm.repos }}"
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['aap'] }}"
+
+    - name: "Enable postgres module"
+      ansible.builtin.command: dnf module enable -y postgresql:12
+
+    - name: "Install packages"
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - firewalld
+        - postgresql
+        - postgresql-server
+
+    - name: Enable and start the firewalld service
+      systemd:
+        name: firewalld
+        enabled: yes
+        state: started
+
+    - name: Configure firewall for DB ports
+      ansible.posix.firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+        immediate: yes
+      loop:
+        - "5432/tcp"
+        - "4567/tcp"
+        - "4444/tcp"
+
+    - name: "Install packages"
+      ansible.builtin.yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - python3-psycopg2
+
+    - name: "Find out if PostgreSQL is initialized"
+      ansible.builtin.stat:
+        path: "/var/lib/pgsql/data/pg_hba.conf"
+      register: postgres_data
+
+    - name: "Initialize PostgreSQL"
+      ansible.builtin.shell: "postgresql-setup initdb"
+      when: not postgres_data.stat.exists
+
+    - name: "Start and enable services"
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - postgresql
+
+    - name: Change listen_address to bind to '*'
+      community.postgresql.postgresql_set:
+        name: listen_addresses
+        value: "*"
+      become_user: postgres
+
+
+    - name: "Create app database"
+      community.postgresql.postgresql_db:
+        state: present
+        name: "{{ item.name }}"
+      become_user: postgres
+      loop: "{{ database}}"
+
+    - name: "Create db user"
+      community.postgresql.postgresql_user:
+        state: present
+        name: "{{ item.pg_username }}"
+        password: "{{ item.pg_password }}"
+      become_user: postgres
+      loop: "{{ database }}"
+
+    - name: "Grant db user access to app db"
+      community.postgresql.postgresql_privs:
+        type: database
+        database: "{{ item.name }}"
+        roles: "{{ item.pg_username }}"
+        grant_option: no
+        privs: all
+      become_user: postgres
+      loop: "{{ database }}"
+
+    - name: "Allow md5 connection for the db user"
+      community.postgresql.postgresql_pg_hba:
+        dest: "/var/lib/pgsql/data/pg_hba.conf"
+        contype: host
+        databases: all
+        method: md5
+        address: "{{ item.pg_address | default('samehost') }}"
+        users: "{{ item.pg_username }}"
+        create: true
+      become_user: postgres
+      notify: restart postgres
+      loop: "{{ database }}"
+
+  handlers:
+    - name: restart postgres
+      service:
+        name: postgresql
+        state: restarted

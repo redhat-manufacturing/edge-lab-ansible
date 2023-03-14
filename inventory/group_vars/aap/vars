@@ -1,0 +1,95 @@
+# AAP Machines
+vm:
+  repos:
+    - ansible-automation-platform-2.3-for-rhel-8-x86_64-rpms
+
+# Installer Information
+aap_setup_down_version: "2.3"
+aap_setup_down_type: setup-bundle
+aap_license_file: "{{playbook_dir}}/../aap-manifest.zip"
+
+aap_setup_working_dir: /tmp/aap-install
+aap_setup_prep_working_dir: /tmp/aap-install
+ansible_distribution_major_version: 8
+
+# AAP Hostnames
+aap_automationhub_hostname: aap-hub.hou.edge.lab
+aap_automationhub_username: admin
+
+aap_controller_hostname: aap-controller.hou.edge.lab
+aap_controller_username: admin
+
+ah_hostname: "{{ aap_automationhub_hostname }}"
+ah_username: "{{ aap_automationhub_username }}"
+ah_password: "{{ aap_automationhub_password }}"
+
+controller_hostname: "{{ aap_controller_hostname }}"
+controller_username: "{{ aap_controller_username }}"
+controller_password: "{{ aap_controller_password }}"
+
+aap_automationhub_pg_host: "{{ ah_hostname }}" 
+aap_automationhub_pg_username: "automationhub"
+aap_automationhub_pg_database: "automationhub"
+aap_automationhub_pg_port: "5432"
+
+aap_controller_pg_host: "{{ ah_hostname }}" 
+aap_controller_pg_username: "controller"
+aap_controller_pg_database: "controller"
+aap_controller_pg_port: "5432"
+
+controller_validate_certs: false
+ah_validate_certs: false
+
+
+# AAP Inventory
+aap_setup_prep_inv_nodes:
+  automationcontroller:
+    - "{{ aap_controller_hostname }}"
+  automationhub:
+    - "{{ aap_automationhub_hostname }}"
+
+aap_setup_prep_inv_vars:
+  all:
+    # workaround to avoid enabling the codeready repo on the autohub server
+    admin_password: "{{ controller_password }}"
+    pg_host: "{{ aap_controller_pg_host }}"
+    pg_port: "{{ aap_controller_pg_port }}"
+
+    pg_database: "{{ aap_controller_pg_database }}"
+    pg_username: "{{ aap_controller_pg_username }}"
+    pg_password: "{{ aap_controller_pg_password }}"
+    pg_sslmode: "prefer" # set to 'verify-full' for client-side enforced SSL
+
+    registry_url: "registry.redhat.io"
+
+    automationhub_admin_password: "{{ ah_password }}"
+
+    automationhub_pg_host: "{{ aap_automationhub_pg_host }}"
+    automationhub_pg_port: "{{ aap_automationhub_pg_port }}"
+
+    automationhub_pg_database: "{{ aap_automationhub_pg_database }}"
+    automationhub_pg_username: "{{ aap_automationhub_pg_username }}"
+    automationhub_pg_password: "{{ aap_automationhub_pg_password }}"
+    automationhub_pg_sslmode: "prefer"
+
+    automationhub_main_url: "https://{{ aap_automationhub_hostname }}"
+    automationhub_require_content_approval: False
+    automationhub_enable_unauthenticated_collection_access: True
+
+    automationhub_ssl_validate_certs: False
+    controller_hostname: "{{ controller_hostname }}"
+    controller_username: "{{ controller_username }}"
+    controller_password: "{{ controller_password }}"
+    ah_hostname: "{{ ah_hostname }}"
+
+    ansible_user: root
+
+database:
+  - name: "{{ aap_automationhub_pg_database }}"
+    pg_username: "{{ aap_automationhub_pg_username }}"
+    pg_password: "{{ aap_automationhub_pg_password }}"
+    pg_address: "0.0.0.0/0"
+  - name: "{{ aap_controller_pg_database }}"
+    pg_username: "{{ aap_controller_pg_username }}"
+    pg_password: "{{ aap_controller_pg_password }}"
+    pg_address: "0.0.0.0/0"

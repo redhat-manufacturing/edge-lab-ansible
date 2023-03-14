@@ -1,0 +1,59 @@
+- name: Setup AAP
+  hosts: localhost
+  tasks:
+    - name: Include AAP variables
+      ansible.builtin.include_vars:
+       file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
+
+    - name: Assert required values provided
+      ansible.builtin.assert:
+        that:
+          - subscription_username is defined
+          - subscription_username | length > 0
+          - subscription_password is defined
+          - subscription_password | length > 0
+          - aap_setup_down_offline_token is defined
+          - aap_setup_down_offline_token | length > 0
+          - aap_license_file is defined
+          - aap_license_file | length > 0
+          - aap_controller_password is defined
+          - aap_controller_password | length > 0
+          - aap_automationhub_password is defined
+          - aap_automationhub_password | length > 0
+    
+    - name: Verify License File Exists
+      ansible.builtin.stat:
+        path: "{{ aap_license_file }}"
+      failed_when: not license_file_stat.stat.exists
+      register: license_file_stat
+
+    - name: Create Setup directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ aap_setup_working_dir }}"
+
+    - name: Define Certificates
+      include_role:
+        name: setup_aap
+        tasks_from: certificates.yml
+
+    - name: Download AAP Sources
+      ansible.builtin.include_role:
+        name: redhat_cop.aap_utilities.aap_setup_download
+
+    - name: Prepare AAP Installer
+      ansible.builtin.include_role:
+        name: redhat_cop.aap_utilities.aap_setup_prepare
+
+    - name: Install AAP
+      include_role:
+        name: redhat_cop.aap_utilities.aap_setup_install
+
+    - name: Add License to Controller
+      ansible.builtin.include_role:
+        name: redhat_cop.controller_configuration.license
+      vars:
+        controller_validate_certs: False
+        controller_license:
+          manifest_file: "{{ aap_license_file }}"
+          force: false
