@@ -1,20 +1,21 @@
-
 - name: Create content related to certificate
+  when: certificate_file | length > 0
   block:
     - name: Create Certificate Directory
       ansible.builtin.file:
         state: directory
         path: "{{ aap_certs_dir }}"
+        mode: 0755
 
     - name: Create SSL file
       ansible.builtin.copy:
         dest: "{{ filename }}"
         content:
           "{{ certificate_file }}"
+        mode: 0755
 
     - name: Set facts
       ansible.builtin.set_fact:
-        aap_setup_prep_inv_vars: "{{ aap_setup_prep_inv_vars | default({}) | combine({'all': { item: filename }}, recursive=True) }}"
+        aap_setup_prep_inv_vars: "{{ aap_setup_prep_inv_vars | default({}) | combine({'all': {item: filename}}, recursive=True) }}"
       loop: "{{ facts }}"
       when: facts is defined
-  when: certificate_file | length > 0

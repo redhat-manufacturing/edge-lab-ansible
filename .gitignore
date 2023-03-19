@@ -158,4 +158,4 @@ VERSION
 # Collection artifacts
 edge_lab-*.tar.gz
 collection/galaxy.yml
-execution-environment/context
+execution-environment/**/ansible.cfg

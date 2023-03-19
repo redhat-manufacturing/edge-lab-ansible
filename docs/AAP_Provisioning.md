@@ -82,13 +82,13 @@ The `aap-prereqs.yml` playbook subscribes the RHEL machines, enables the require
 Execute the following command from the root of the repository to perform the prerequisites needed to support the deployment:
 
 ```shell
-ansible-navigator run --eei=localhost/edge-lab-aap:latest --pp=missing playbooks/aap-prereqs.yml
+ansible-navigator run -pp=missing playbooks/aap-prereqs.yml
 ```
 
 Once the prerequisites playbook has been executed and all of the prerequisite steps as described earlier have been satisfied, execute the following command to deploy AAP
 
 ```shell
-ansible-navigator run --eei=localhost/edge-lab-aap:latest --pp=missing playbooks/setup-aap.yml -e @my-sensitive-aap-creds.yml`
+ansible-navigator run --pp=missing playbooks/setup-aap.yml -e @my-sensitive-aap-creds.yml`
 ```
 
 Once the playbook completes, AAP will be deployed and available at the endpoints provided in the inventory.

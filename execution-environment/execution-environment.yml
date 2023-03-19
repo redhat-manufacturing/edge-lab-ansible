@@ -5,3 +5,10 @@ build_arg_defaults:
   EE_BUILDER_IMAGE: localhost/extended-builder-image:latest
 dependencies:
   galaxy: requirements.yml
+  system: bindep.txt
+
+ansible_config: ansible.cfg
+
+additional_build_steps:
+ prepend:
+    - COPY ansible.cfg /etc/ansible/ansible.cfg

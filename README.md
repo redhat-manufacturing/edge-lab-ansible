@@ -10,6 +10,27 @@ See [Lab Access](docs/ACCESS.md)
 ssh ansible@bastion.hou.edgelab.online
 ```
 
+## Prerequisites
+
+Create an `ansible.cfg` at that path [execution-environment/context/ansible.cfg] containing the following contents:
+
+```ini
+[galaxy]
+server_list = automation_hub, community
+
+[galaxy_server.automation_hub]
+url=https://cloud.redhat.com/api/automation-hub/
+auth_url=https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+
+token=<TOKEN>
+
+[galaxy_server.community]
+url=https://galaxy.ansible.com
+```
+
+Replace the `token` value with your token for [Automation Hub](https://console.redhat.com/ansible/automation-hub)
+
+
 ## Quickstart
 
 ```
