@@ -13,7 +13,7 @@
 
     - name: Include AAP variables
       ansible.builtin.include_vars:
-       file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
+        file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
 
     - name: Register Instances
       community.general.redhat_subscription:

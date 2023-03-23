@@ -72,8 +72,8 @@ collection: .collection
 	cp edge_lab-infra-$$(cat VERSION).tar.gz execution-environment/edge_lab-infra-latest.tar.gz
 	$(RUNTIME) build execution-environment -f Containerfile.builder -t extended-builder-image
 	$(RUNTIME) build execution-environment -f Containerfile.base -t extended-base-image
-	cd execution-environment \
-		&& ../venv/bin/ansible-builder build -v 3 --container-runtime $(RUNTIME) -t localhost/edge_lab-infra:latest
+	cd execution-environment/context \
+		&& $(RUNTIME) build -t localhost/edge_lab-infra:latest .
 	$(RUNTIME) tag localhost/edge_lab-infra:latest $(REGISTRY)/$(REPOSITORY):$$(cat VERSION)
 	$(RUNTIME) tag localhost/edge_lab-infra:latest $(REGISTRY)/$(REPOSITORY):latest
 	touch .ee-built

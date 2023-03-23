@@ -4,18 +4,28 @@ name: infra
 version: "{{ VERSION }}"
 readme: README.md
 authors:
+- "Andrew Block <ablock@redhat.com>"
 - "James Harmison <jharmison@redhat.com>"
 - "Cory Latschkowski <clatschk@redhat.com>"
 dependencies:
   ansible.posix: ">=1.4.0,<1.5.0"
   containers.podman: ">=1.9.4,<1.10.0"
+  community.crypto: ">=2.11.0,<3.0.0"
   community.general: ">=5.6.0,<6.0.0"
+  community.postgresql: ">=2.3.0,<3.0.0"
+  ansible.controller: ">=4.3.0,<5.0.0"
+  ansible.netcommon: ">=5.0.0,<6.0.0"
+  redhat_cop.aap_utilities: ">=2.2.0,<2.3.0"
+  redhat_cop.ah_configuration: ">=1.1.0,<2.0.0"
+  redhat_cop.controller_configuration: ">=2.3.0,<2.4.0"
+
 license:
 - BSD-2-Clause
 tags:
 - ics
 - scada
 - redhat
+- ansible
 repository: https://github.com/redhat-manufacturing/edge-lab-ansible
 build_ignore:
 - '*.swp'

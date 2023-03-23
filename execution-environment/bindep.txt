@@ -1,0 +1,4 @@
+git [platform:rpm]
+unzip [platform:rpm]
+tar [platform:rpm]
+

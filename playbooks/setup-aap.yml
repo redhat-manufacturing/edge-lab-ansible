@@ -3,7 +3,7 @@
   tasks:
     - name: Include AAP variables
       ansible.builtin.include_vars:
-       file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
+        file: "{{ playbook_dir }}/../inventory/group_vars/aap/vars"
 
     - name: Assert required values provided
       ansible.builtin.assert:
@@ -20,7 +20,7 @@
           - aap_controller_password | length > 0
           - aap_automationhub_password is defined
           - aap_automationhub_password | length > 0
-    
+
     - name: Verify License File Exists
       ansible.builtin.stat:
         path: "{{ aap_license_file }}"
@@ -33,8 +33,8 @@
         path: "{{ aap_setup_working_dir }}"
 
     - name: Define Certificates
-      include_role:
-        name: setup_aap
+      ansible.builtin.include_role:
+        name: edge_lab.infra.setup_aap
         tasks_from: certificates.yml
 
     - name: Download AAP Sources
