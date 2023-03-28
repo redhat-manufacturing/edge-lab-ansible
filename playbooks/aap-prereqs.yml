@@ -31,7 +31,7 @@
       loop: "{{ groups['aap'] }}"
 
     - name: "Enable postgres module"
-      ansible.builtin.command: dnf module enable -y postgresql:12
+      ansible.builtin.command: dnf module enable -y postgresql:13
 
     - name: "Install packages"
       ansible.builtin.dnf:
