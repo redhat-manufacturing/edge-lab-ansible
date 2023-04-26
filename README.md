@@ -12,7 +12,7 @@ ssh ansible@bastion.hou.edgelab.online
 
 ## Prerequisites
 
-Create an `ansible.cfg` at that path [execution-environment/context/ansible.cfg] containing the following contents:
+Create an `ansible.cfg` at that path [execution-environment/context/_build/ansible.cfg] containing the following contents:
 
 ```ini
 [galaxy]
@@ -22,6 +22,7 @@ server_list = automation_hub, community
 url=https://cloud.redhat.com/api/automation-hub/
 auth_url=https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
 
+# https://console.redhat.com/ansible/automation-hub/token#
 token=<TOKEN>
 
 [galaxy_server.community]
