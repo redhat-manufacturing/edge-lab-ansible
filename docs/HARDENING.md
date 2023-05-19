@@ -9,6 +9,7 @@ PermitRootLogin without-password
 ```
 
 ## Automated updates
+
 ```
 dnf -y install dnf-automatic
 systemctl enable --now dnf-automatic.timer
@@ -23,6 +24,7 @@ emit_via = motd
 ```
 
 ## Install fail2ban
+
 ```
 dnf -y install epel-release
 dnf -y install fail2ban
