@@ -15,9 +15,9 @@
 - name: Setup Certificates
   ansible.builtin.include_tasks: manage-certificate.yml
   vars:
-    certificate_file: "{{ certificate.variable }}"
-    filename: "{{ certificate.filename }}"
-    facts: "{{ certificate.facts }}"
+    setup_aap_certificate_file: "{{ certificate.variable }}"
+    setup_aap_filename: "{{ certificate.filename }}"
+    setup_aap_facts: "{{ certificate.facts }}"
   loop_control:
     loop_var: certificate
   loop:

@@ -4,12 +4,12 @@ vm:
     - ansible-automation-platform-2.3-for-rhel-8-x86_64-rpms
 
 # Installer Information
-aap_setup_down_version: "2.3"
-aap_setup_down_type: setup-bundle
+setup_aap_down_version: "2.3"
+setup_aap_down_type: setup-bundle
 aap_license_file: "{{playbook_dir}}/../aap-manifest.zip"
 
-aap_setup_working_dir: /tmp/aap-install
-aap_setup_prep_working_dir: /tmp/aap-install
+setup_aap_working_dir: /tmp/aap-install
+setup_aap_prep_working_dir: /tmp/aap-install
 ansible_distribution_major_version: 8
 
 # AAP Hostnames
@@ -42,13 +42,13 @@ ah_validate_certs: false
 
 
 # AAP Inventory
-aap_setup_prep_inv_nodes:
+setup_aap_prep_inv_nodes:
   automationcontroller:
     - "{{ aap_controller_hostname }}"
   automationhub:
     - "{{ aap_automationhub_hostname }}"
 
-aap_setup_prep_inv_vars:
+setup_aap_prep_inv_vars:
   all:
     # workaround to avoid enabling the codeready repo on the autohub server
     admin_password: "{{ controller_password }}"

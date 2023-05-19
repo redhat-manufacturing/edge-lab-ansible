@@ -16,6 +16,6 @@
 
     - name: Set facts
       ansible.builtin.set_fact:
-        aap_setup_prep_inv_vars: "{{ aap_setup_prep_inv_vars | default({}) | combine({'all': {item: filename}}, recursive=True) }}"
+        setup_aap_prep_inv_vars: "{{ setup_aap_prep_inv_vars | default({}) | combine({'all': {item: filename}}, recursive=True) }}"
       loop: "{{ facts }}"
       when: facts is defined

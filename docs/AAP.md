@@ -43,9 +43,9 @@ Create a new file, such as `my-sensitive-aap-creds.yml` containing the following
 subscription_username: "<username>"
 subscription_password: "<password>"
 
-aap_setup_down_offline_token: "<offline_token>"
+setup_aap_down_offline_token: "<offline_token>"
 
-aap_setup_prep_inv_secrets:
+setup_aap_prep_inv_secrets:
   all:
     registry_username: "<registry_username>"
     registry_password: "<registry_password>"
