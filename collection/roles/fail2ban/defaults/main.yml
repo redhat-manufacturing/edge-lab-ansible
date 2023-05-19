@@ -1,3 +1,0 @@
----
-fail2ban_jails_to_configure:
-  - sshd

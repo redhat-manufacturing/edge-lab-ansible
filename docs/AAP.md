@@ -23,7 +23,6 @@ Bare metal instances or virtual machine must be provided in order to install AAP
 
 Populate the AAP inventory with the desired infrastructure in the [inventory/aap](inventory/aap) file.
 
-
 ### AAP License File
 
 An Ansible Automation Platform license file is required to enable the instances to have the appropriate licensing required for operation. More information surrounding how to obtain the license file can be found [here](https://access.redhat.com/solutions/2975721).
@@ -44,9 +43,9 @@ Create a new file, such as `my-sensitive-aap-creds.yml` containing the following
 subscription_username: "<username>"
 subscription_password: "<password>"
 
-aap_setup_down_offline_token: "<offline_token>"
+setup_aap_down_offline_token: "<offline_token>"
 
-aap_setup_prep_inv_secrets:
+setup_aap_prep_inv_secrets:
   all:
     registry_username: "<registry_username>"
     registry_password: "<registry_password>"

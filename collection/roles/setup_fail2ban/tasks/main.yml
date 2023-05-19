@@ -15,11 +15,11 @@
     owner: root
     group: root
     mode: '0644'
-  loop: '{{ fail2ban_jail_configs | flatten }}'
+  loop: '{{ setup_fail2ban_jail_configs | flatten }}'
   vars:
-    fail2ban_jail_configs:
+    setup_fail2ban_jail_configs:
     - 01-defaults  # always include the defaults
-    - '{{ ["02-"] | product(fail2ban_jails_to_configure) | map("join") | list }}'  # this prepends "02-" to every member of the array
+    - '{{ ["02-"] | product(setup_fail2ban_jails_to_configure) | map("join") | list }}'  # this prepends "02-" to every member of the array
   notify: restart fail2ban
 
 - name: Ensure fail2ban is running and enabled
