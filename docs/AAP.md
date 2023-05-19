@@ -23,7 +23,6 @@ Bare metal instances or virtual machine must be provided in order to install AAP
 
 Populate the AAP inventory with the desired infrastructure in the [inventory/aap](inventory/aap) file.
 
-
 ### AAP License File
 
 An Ansible Automation Platform license file is required to enable the instances to have the appropriate licensing required for operation. More information surrounding how to obtain the license file can be found [here](https://access.redhat.com/solutions/2975721).
