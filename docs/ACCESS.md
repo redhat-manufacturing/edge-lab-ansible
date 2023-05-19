@@ -31,7 +31,7 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/username") }}'
 ```
 
-`collection/roles/ssh_setup/defaults/main.yml`
+`collection/roles/setup_ssh/defaults/main.yml`
 
 Defines default ssh desired group of public keys to install
 

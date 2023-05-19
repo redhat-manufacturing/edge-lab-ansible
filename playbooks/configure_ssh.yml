@@ -2,4 +2,4 @@
 - hosts: all
   become: true
   roles:
-    - role: edge_lab.infra.ssh_setup
+    - role: edge_lab.infra.setup_ssh
