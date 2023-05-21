@@ -1,3 +1,4 @@
+---
 plugin: community.general.nmap
 address: 192.168.10,30.0/24
 # sudo: True
