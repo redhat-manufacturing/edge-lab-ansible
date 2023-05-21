@@ -1,6 +1,6 @@
 ---
 plugin: community.general.nmap
-address: 192.168.10-30.0/24
+address: 192.168.10,30.0/24
 # sudo: True
 # dns_resolve: True
 strict: False
