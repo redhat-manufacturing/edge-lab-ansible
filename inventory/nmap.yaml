@@ -1,8 +1,8 @@
 ---
 plugin: community.general.nmap
 address: 192.168.10-30.0/24
-sudo: True
-dns_resolve: True
+# sudo: True
+# dns_resolve: True
 strict: False
 ipv4: yes
 ports: 22,443,80,3389
