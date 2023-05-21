@@ -7,5 +7,7 @@ strict: False
 ipv4: yes
 # ports: 22,443,80,3389
 groups:
-  web: "ports | selectattr('port', 'equalto', '80')"
   ssh: "ports | selectattr('port', 'equalto', '22')"
+  http: "ports | selectattr('port', 'equalto', '80')"
+  https: "ports | selectattr('port', 'equalto', '443')"
+  rdp: "ports | selectattr('port', 'equalto', '3389')"
