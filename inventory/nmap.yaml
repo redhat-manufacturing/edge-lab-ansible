@@ -5,6 +5,6 @@ address: 192.168.10,30.0/24
 # dns_resolve: True
 strict: False
 ipv4: yes
-ports: 22,443,80,3389
+# ports: 22,443,80,3389
 groups:
   web: "ports | selectattr('port', 'equalto', '80')"
