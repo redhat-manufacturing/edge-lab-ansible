@@ -8,3 +8,4 @@ ipv4: yes
 # ports: 22,443,80,3389
 groups:
   web: "ports | selectattr('port', 'equalto', '80')"
+  ssh: "ports | selectattr('port', 'equalto', '22')"
