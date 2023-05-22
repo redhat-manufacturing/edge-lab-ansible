@@ -16,9 +16,9 @@
     path: '{{ item }}'
   notify: restart service
   loop:
-  - /etc/systemd/system/ansible-pull.env
   - /etc/systemd/system/ansible-pull.service
   - /etc/systemd/system/ansible-pull.timer
+  - /etc/systemd/system/ansible-pull.env
   - /usr/local/bin/ansible-pull.sh
 
 - name: Remove directories
