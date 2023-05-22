@@ -8,7 +8,8 @@
   loop:
   - ansible-pull.service
   - ansible-pull.timer
-  ignore_errors: "{{ ansible_check_mode }}"
+  ignore_errors: true
+  register: stop_systemd_register
 
 - name: Remove systemd units and exec script
   become: true
