@@ -6,7 +6,7 @@ Requires=ansible-pull.service
 Unit=ansible-pull.service
 # Every boot
 OnBootSec=15min
-# Hourly
+# Every 20 min
 OnUnitActiveSec=20min
 
 [Install]
