@@ -24,3 +24,5 @@ rhel9-01.hou.edge.lab
 # 192.168.10.101
 onlogichmi.hou.edge.lab
 # 192.168.10.103
+aap-hub.hou.edge.lab
+aap-controller.hou.edge.lab
