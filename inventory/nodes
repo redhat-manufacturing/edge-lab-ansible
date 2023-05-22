@@ -14,8 +14,13 @@ ansible_port=22
 ansible_connection=ssh
 
 [configured]
-192.168.10.19
-192.168.10.20
-192.168.10.61
-192.168.10.101
-192.168.10.182
+bastion.hou.edge.lab
+# 192.168.10.20
+vmbastion.hou.edge.lab
+# 192.168.10.60
+rhmw.hou.edge.lab
+# 192.168.10.61
+rhel9-01.hou.edge.lab
+# 192.168.10.101
+onlogichmi.hou.edge.lab
+# 192.168.10.103
