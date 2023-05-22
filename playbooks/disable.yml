@@ -1,0 +1,7 @@
+---
+- name: Configure ansible-pulling the content that applies to each host
+  hosts: all
+  tasks:
+    - ansible.builtin.include_role:
+        name: edge_lab.infra.bootstrap_pull
+        tasks_from: disable

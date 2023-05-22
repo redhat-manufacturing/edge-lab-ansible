@@ -73,7 +73,7 @@
     group: root
     mode: '0600'
 
-- name: Ensure that the systemd unit and exec script exist
+- name: Ensure that the systemd units and exec script exist
   become: true
   ansible.builtin.copy:
     src: '{{ item.src }}'
