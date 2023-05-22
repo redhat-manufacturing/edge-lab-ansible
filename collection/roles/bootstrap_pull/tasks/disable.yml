@@ -15,7 +15,7 @@
   become: true
   ansible.builtin.file:
     state: absent
-    path: '{{ item | dirname }}'
+    path: '{{ item }}'
   loop:
   - '{{ config_setup_dir }}'
   - '{{ ansible_pull_path }}'
