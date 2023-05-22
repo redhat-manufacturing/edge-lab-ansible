@@ -1,4 +1,14 @@
 ---
+- name: Stop systemd units
+  become: true
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    state: stopped
+    enabled: false
+  loop:
+  - ansible-pull.service
+  - ansible-pull.timer
+
 - name: Remove systemd units and exec script
   become: true
   ansible.builtin.file:
