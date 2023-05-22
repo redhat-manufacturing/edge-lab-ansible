@@ -8,6 +8,11 @@ bastion.hou.edgelab.online ansible_user=ansible
 [bastion]
 192.168.10.20
 
+[configured:vars]
+ansible_user=ansible
+ansible_port=22
+ansible_connection=ssh
+
 [configured]
 192.168.10.19
 192.168.10.20
