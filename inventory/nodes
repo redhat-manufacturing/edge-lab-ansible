@@ -1,9 +1,20 @@
 
-# [example]
-# 192.168.30.3 ansible_user=root
-
 [bastion_public]
 bastion.hou.edgelab.online ansible_user=ansible
 
 [bastion]
 192.168.10.20
+
+[configured:vars]
+ansible_user=ansible
+ansible_port=22
+ansible_connection=ssh
+
+[configured]
+bastion.hou.edge.lab
+vmbastion.hou.edge.lab
+rhmw.hou.edge.lab
+rhel9-01.hou.edge.lab
+onlogichmi.hou.edge.lab
+aap-hub.hou.edge.lab
+aap-controller.hou.edge.lab

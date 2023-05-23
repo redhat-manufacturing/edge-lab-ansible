@@ -13,7 +13,7 @@ runtime_args=(
     -e 'AAP_*'
     -v /root/.ssh:/home/runner/.ssh
     -v /root/.ssh:/root/.ssh
-    -v "$ANSIBLE_PULL_PATH:/runner/project"
+    -v "$ANSIBLE_PULL_PATH_REPO:/runner/project"
     -v "$ANSIBLE_VAULT_PASSWORD_FILE:$ANSIBLE_VAULT_PASSWORD_FILE"
     --name=ansible-pull
 )
@@ -25,10 +25,10 @@ run_playbook() {
 
 update_project() {
     keyscan='if [ ! -n "$(grep "^github.com" ~/.ssh/known_hosts)" ]; then ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; fi'
-    if [ -d "$ANSIBLE_PULL_PATH/.git" ]; then
+    if [ -d "$ANSIBLE_PULL_PATH_REPO/.git" ]; then
         script="$keyscan ; cd /runner/project && git checkout ${ANSIBLE_PULL_CHECKOUT} && git pull"
     else
-        mkdir -p "$ANSIBLE_PULL_PATH"
+        mkdir -p "$ANSIBLE_PULL_PATH_REPO"
         script="$keyscan ; cd /runner/project && git clone -b ${ANSIBLE_PULL_CHECKOUT} --depth=1 --recurse-submodules ${ANSIBLE_PULL_REPO} ."
     fi
     ${RUNTIME} run --pull always "${runtime_args[@]}" --entrypoint bash "${AAP_EE_IMAGE}" -c "${script}"
@@ -36,9 +36,9 @@ update_project() {
 
 update_project
 
-if [ -d "$ANSIBLE_PULL_PATH/inventory" ]; then
+if [ -d "$ANSIBLE_PULL_PATH_REPO/inventory" ]; then
     runtime_args+=(
-        -v "$ANSIBLE_PULL_PATH/inventory:/runner/inventory"
+        -v "$ANSIBLE_PULL_PATH_REPO/inventory:/runner/inventory"
     )
 fi
 

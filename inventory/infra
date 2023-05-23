@@ -1,12 +1,12 @@
-
-# [example]
-# 192.168.30.3 ansible_user=root
-
 [router]
 192.168.10.1
 
+[switches]
+192.168.10.[2:6]
+
 [network:children]
 router
+switches
 
 [pdu]
 192.168.10.21
@@ -15,9 +15,3 @@ router
 192.168.10.22
 
 [infra:children]
-
-[bastion_public]
-bastion.hou.edgelab.online
-
-[bastion]
-192.168.10.20

@@ -1,16 +1,17 @@
 ---
+ansible_pull_path_config: /etc/edge-lab
+ansible_pull_path_repo: /var/lib/edge-lab
+
+ansible_vault_password_path: '{{ ansible_pull_path_config }}/vault-password'
+
+ee_pull_authfile: '{{ ansible_pull_path_config }}/ee-pull.json'
+ee_pull_user: serviceaccount
+
 ee_registry: default-route-openshift-image-registry.apps.hou.edgelab.online
 ee_repo: registry/edge-lab-ansible
 ee_tag: latest
 
 ee_image: '{{ ee_registry }}/{{ ee_repo }}:{{ ee_tag }}'
-
-config_setup_dir: /etc/edge-lab
-
-ee_pull_authfile: '{{ config_setup_dir }}/ee-pull.json'
-ee_pull_user: serviceaccount
-
-ansible_vault_password_path: '{{ config_setup_dir }}/vault-password'
 
 ansible_pull_playbooks:
 - playbooks/configure_ssh.yml
@@ -18,5 +19,3 @@ ansible_pull_playbooks:
 ansible_pull_extra_args: ""
 ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/edge-lab-ansible.git
 ansible_pull_checkout: main
-
-ansible_pull_path: /var/lib/edge-lab

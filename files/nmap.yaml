@@ -1,0 +1,13 @@
+---
+plugin: community.general.nmap
+address: 192.168.10,30.0/24
+# sudo: True
+# dns_resolve: True
+strict: False
+ipv4: yes
+# ports: 22,443,80,3389
+groups:
+  ssh: "ports | selectattr('port', 'equalto', '22')"
+  http: "ports | selectattr('port', 'equalto', '80')"
+  https: "ports | selectattr('port', 'equalto', '443')"
+  rdp: "ports | selectattr('port', 'equalto', '3389')"

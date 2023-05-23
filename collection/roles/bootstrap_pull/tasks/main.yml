@@ -15,7 +15,7 @@
     path: '{{ item | dirname }}'
     owner: root
     group: root
-    mode: '0755'
+    mode: '0750'
   loop:
   - '{{ ee_pull_authfile }}'
   - '{{ ansible_vault_password_path }}'
@@ -73,7 +73,7 @@
     group: root
     mode: '0600'
 
-- name: Ensure that the systemd unit and exec script exist
+- name: Ensure that the systemd units and exec script exist
   become: true
   ansible.builtin.copy:
     src: '{{ item.src }}'

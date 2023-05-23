@@ -1,0 +1,36 @@
+---
+- name: Stop systemd units
+  become: true
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    state: stopped
+    enabled: false
+  loop:
+  - ansible-pull.service
+  - ansible-pull.timer
+  ignore_errors: true
+  register: stop_systemd_register
+
+- name: Remove systemd units and exec script
+  become: true
+  ansible.builtin.file:
+    state: absent
+    path: '{{ item }}'
+  notify: restart service
+  loop:
+  - /etc/systemd/system/ansible-pull.service
+  - /etc/systemd/system/ansible-pull.timer
+  - /etc/systemd/system/ansible-pull.env
+  - /usr/local/bin/ansible-pull.sh
+
+- name: Remove directories
+  become: true
+  ansible.builtin.file:
+    state: absent
+    path: '{{ item }}'
+  loop:
+  - '{{ ansible_pull_path_config }}'
+  - '{{ ansible_pull_path_repo }}'
+
+- name: Handle changes to systemd services
+  ansible.builtin.meta: flush_handlers
