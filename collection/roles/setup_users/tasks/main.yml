@@ -20,4 +20,3 @@
     group: root
     mode: '0600'
   loop: "{{ sudo_users }}"
-    
