@@ -16,9 +16,9 @@
     groups: |-
       {% for group in item.groups %}
       {% if group in ansible_facts.getent_group %}
-      {{ group }}
+      {{ group }}{% if not loop.last %},{% endif %}
       {% endif %}
-      {% endfor %} | default( {{ item.name }} )
+      {% endfor %}
   loop: "{{ setup_users }}"
 
 - name: Ensure that the user can sudo
