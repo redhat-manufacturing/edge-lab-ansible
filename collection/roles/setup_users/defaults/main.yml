@@ -1,0 +1,10 @@
+---
+root_password: "{{ vault_root_password }}"
+sudo_admin_group: admin
+
+setup_users:
+- root
+- ansible
+
+sudo_users:
+- ansible
