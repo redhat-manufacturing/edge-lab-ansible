@@ -4,7 +4,7 @@ sudo_admin_group: wheel
 
 setup_users:
 - name: ansible
-  groups: 
+  groups:
     - ansible
     - libvirt
     - wheel
