@@ -1,10 +1,10 @@
 ---
 root_password: "{{ vault_root_password }}"
-sudo_admin_group: admin
+sudo_admin_group: wheel
 
 setup_users:
-- root
-- ansible
+- name: ansible
+  groups: libvirt,wheel
 
 sudo_users:
 - ansible

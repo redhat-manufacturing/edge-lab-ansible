@@ -5,11 +5,12 @@
     name: root
     password: "{{ root_password | password_hash('sha512') }}"
 
-# - name: Ensure user exists
-#   become: true
-#   ansible.builtin.user:
-#     name: '{{ item.name }}'
-#     groups: '{{ item.name }},{{ sudo_admin_group }}'
+- name: Ensure user exists
+  become: true
+  ansible.builtin.user:
+    name: '{{ item.name }}'
+    groups: '{{ item.name }},{{ item.groups }}'
+  loop: "{{ setup_users }}"
 
 - name: Ensure that the user can sudo
   become: true
