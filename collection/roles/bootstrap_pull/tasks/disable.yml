@@ -29,8 +29,8 @@
     state: absent
     path: '{{ item }}'
   loop:
-  - '{{ config_setup_dir }}'
-  - '{{ ansible_pull_path }}'
+  - '{{ ansible_pull_path_config }}'
+  - '{{ ansible_pull_path_repo }}'
 
 - name: Handle changes to systemd services
   ansible.builtin.meta: flush_handlers

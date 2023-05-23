@@ -73,14 +73,18 @@ The first argument to run.sh is a playbook in the `playbooks` directory. It can 
 Ensure that the things you'd like per group or host are configured in the following variables:
 
 ```yaml
+# the path to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
+ansible_pull_path_config: /etc/edge-lab
+
+# the path to pull to
+ansible_pull_path_repo: /var/lib/edge-lab
+
+ee_pull_user: serviceaccount # the user that can pull the EE image
+ee_pull_password: "{{ vault_ee_pull_password }}" # the password for that user
+
 ee_registry: default-route-openshift-image-registry.apps.hou.edgelab.online # the registry where you pushed the built EE collection
 ee_repo: registry/edge-lab-ansible # the container image repo in that registry
 ee_tag: latest # the tag you'd like to follow
-
-config_setup_dir: /etc/edge-lab # the location you'd like to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
-
-ee_pull_user: serviceaccount # the user that can pull the EE image
-ee_pull_password: <whatever> # the password for that user
 
 # the playbooks you want the host to run regularly on itself
 ansible_pull_playbooks:
@@ -88,11 +92,9 @@ ansible_pull_playbooks:
 
 # the repo you want tracked
 ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/edge-lab-ansible.git
+
 # the branch/tag/etc. you want tracked
 ansible_pull_checkout: main
-
-# the location to pull to
-ansible_pull_path: /var/lib/edge-lab
 ```
 
 Ensure that you follow all other steps for leveraging the `run.sh` script (like the exported vault password) and run the following:
