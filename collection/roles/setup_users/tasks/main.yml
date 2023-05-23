@@ -6,7 +6,7 @@
     password: "{{ root_password | password_hash('sha512') }}"
 
 - name: Determine available groups
-  getent:
+  ansible.builtin.getent:
     database: group
 
 - name: Ensure user exists
