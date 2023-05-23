@@ -1,5 +1,5 @@
 ---
-root_password: "{{ vault_root_password | default( lookup('password', '/dev/null length=32 chars=ascii_letters,digits') ) }}"
+root_password: "{{ vault_root_password | default(lookup('password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 sudo_admin_group: wheel
 
 setup_users:
