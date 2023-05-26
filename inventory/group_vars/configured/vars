@@ -5,6 +5,7 @@ ssh_config_users:
 
 desired_groups:
 - redhat
+- exxon
 - example
 
 # the path to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
