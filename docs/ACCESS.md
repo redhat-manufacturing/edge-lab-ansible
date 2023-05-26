@@ -33,11 +33,11 @@ ssh-rsa AAAAB...== user@example.com
 
 `inventory/group_vars/all/vars`
 
-Add `username`'s public ssh key to the ssh group `redhat`
+Add (github) `username`'s public ssh key to the ssh group `example`
 
 ```
 ssh_config_authorized_keys:
-  redhat:
+  example:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/username") }}'
 ```
 
@@ -48,6 +48,7 @@ Defines default ssh desired group of public keys to install
 ```
 desired_groups:
 - redhat
+- example
 ```
 
 `inventory/group_vars/bastion/vars`

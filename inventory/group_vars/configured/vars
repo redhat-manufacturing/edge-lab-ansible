@@ -3,6 +3,10 @@ ansible_user: ansible
 ssh_config_users:
 - ansible
 
+desired_groups:
+- redhat
+- example
+
 # the path to stage things like secrets, ssh keys, etc. on the endpoint (root-only readable)
 ansible_pull_path_config: /etc/edge-lab
 
