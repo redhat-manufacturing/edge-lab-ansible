@@ -4,7 +4,13 @@ Remote access info
 
 ## SSH Host Access
 
-You can gain remote access to nodes via `ssh` public keys.
+You can gain remote access to the lab via `ssh` public keys. 
+
+You will need to generate an `ssh` [keypair](link_to_example)
+
+```
+ssh-keygen -t ed25519
+```
 
 Setup access to the following:
 
