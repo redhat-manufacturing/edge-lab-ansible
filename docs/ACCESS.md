@@ -41,8 +41,6 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/username") }}'
 ```
 
-`collection/roles/setup_ssh/defaults/main.yml`
-
 Defines default ssh desired group of public keys to install
 
 ```
@@ -51,6 +49,8 @@ desired_groups:
 - example
 ```
 
+See also `collection/roles/setup_ssh/defaults/main.yml`
+
 `inventory/group_vars/bastion/vars`
 
 Defines the user `ansible` is being configured on host `bastion`
@@ -58,4 +58,8 @@ Defines the user `ansible` is being configured on host `bastion`
 ```
 ssh_config_users:
 - ansible
+
+desired_groups:
+- redhat
+- example
 ```
