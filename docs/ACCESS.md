@@ -9,7 +9,7 @@ You can gain remote access to the lab via `ssh` public keys.
 You will need to generate an `ssh` [keypair](link_to_example)
 
 ```
-ssh-keygen -t ed25519 -C "user@email"
+ssh-keygen -t ed25519 -C "user@example.com"
 ```
 
 Setup access to the following:
@@ -21,7 +21,7 @@ Setup access to the following:
 ssh ansible@bastion.hou.edgelab.online
 ```
 
-### Related files
+### Git related files
 
 `files/pubkeys/<username>`
 
