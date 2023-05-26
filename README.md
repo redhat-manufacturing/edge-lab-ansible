@@ -4,7 +4,7 @@ This repository is used to track / automate the assets in the edge Lab.
 
 ## Lab Access
 
-See [Lab Access](docs/ACCESS.md)
+To get lab access see [Lab Access](docs/ACCESS.md)
 
 ```
 ssh ansible@bastion.hou.edgelab.online
