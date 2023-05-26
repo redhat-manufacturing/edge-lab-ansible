@@ -17,6 +17,10 @@ Setup access to the following:
 - User: `ansible`
 - Host: `bastion.hou.edgelab.online`
 
+```
+ssh ansible@bastion.hou.edgelab.online
+```
+
 ### Related files
 
 `files/pubkeys/<username>`
