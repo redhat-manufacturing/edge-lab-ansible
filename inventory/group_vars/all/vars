@@ -10,6 +10,8 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/tmoore") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/troyer") }}'
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/thall") }}'
+  - '{{ lookup("file", playbook_dir + "/../files/pubkeys/aseifert") }}'
+  - '{{ lookup("file", playbook_dir + "/../files/pubkeys/zleblanc") }}'
   exxon:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/iampmmoore") }}'
 
