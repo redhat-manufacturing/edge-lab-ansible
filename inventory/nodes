@@ -11,11 +11,11 @@ ansible_port=22
 ansible_connection=ssh
 
 [configured]
-bastion.hou.edge.lab
+# bastion.hou.edge.lab
 vmbastion.hou.edge.lab
-rhmw.hou.edge.lab
+# rhmw.hou.edge.lab
 rhel9-01.hou.edge.lab
-intelnuci7-rht92.hou.edge.lab
-onlogichmi.hou.edge.lab
-aap-hub.hou.edge.lab
-aap-controller.hou.edge.lab
+# intelnuci7-rht92.hou.edge.lab
+# onlogichmi.hou.edge.lab
+# aap-hub.hou.edge.lab
+# aap-controller.hou.edge.lab
