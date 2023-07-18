@@ -51,7 +51,7 @@ desired_groups:
 
 See also `collection/roles/setup_ssh/defaults/main.yml`
 
-`inventory/group_vars/bastion/vars`
+`inventory/group_vars/bastion/configured/vars`
 
 Defines the user `ansible` is being configured on host `bastion`
 
