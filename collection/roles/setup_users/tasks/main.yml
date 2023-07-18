@@ -1,5 +1,5 @@
 ---
-- name: Set Root Password
+- name: Set Random Root Password
   become: true
   ansible.builtin.user:
     name: root
