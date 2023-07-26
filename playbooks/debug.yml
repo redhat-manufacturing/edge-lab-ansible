@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  # - shell: 'ls -ltr'
+  #   register: 'output'
+
+  # - debug:
+  #     msg: |
+  #       The role is {{ host_role }}
+  #       The environment is {{ host_environment }}
+
+  - debug:
+      # var: hostvars[inventory_hostname]
+      var: hostvars[inventory_hostname].user_groups
+      # var: hostvars
+
+  - set_fact:
+      group_in_groups: '{{ hostvars[inventory_hostname].user_groups }}'
+      register: output
+
+  - set_fact:
+      node_groups: '{% for group in group_in_groups %}{% endfor %}'
+      # node_users: '{{ node_groups.redhat }}'
+
+  - debug:
+      # var: users_in_group
+      var: node_groups

@@ -1,5 +1,5 @@
 ---
-- name: Set Random Root Password
+- name: Set root password - avoid known / weak passwords
   become: true
   ansible.builtin.user:
     name: root
@@ -9,11 +9,13 @@
   ansible.builtin.getent:
     database: group
 
-- name: Ensure user exists
+- name: Ensure user exists w/ specific groups
   become: true
   ansible.builtin.user:
     name: "{{ item.name }}"
+    group: "{{ item.group | default( item.name ) }}"
     groups: |-
+      {{ item.group | default( item.name ) }}
       {% for group in item.groups %}
       {% if group in ansible_facts.getent_group %}
       {{ group }}{% if not loop.last %},{% endif %}
@@ -21,7 +23,18 @@
       {% endfor %}
   loop: "{{ setup_users }}"
 
-- name: Ensure that the user can sudo
+- name: Ensure authorized_key for the selected users
+  ansible.posix.authorized_key:
+    user: '{{ item }}'
+    state: present
+    exclusive: yes
+    key: |-
+      {% for key in users[item].authorized_keys %}
+      {{ key }}
+      {% endfor %}
+  loop: '{% for desired_users in desired_groups %}{% endfor %}'
+
+- name: Ensure admin user can sudo
   become: true
   ansible.builtin.template:
     src: sudoer.j2
