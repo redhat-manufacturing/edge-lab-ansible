@@ -24,9 +24,9 @@ ee_tag: latest # the tag you'd like to follow
 
 # the playbooks you want the host to run regularly on itself
 ansible_pull_playbooks:
-- playbooks/configure_fail2ban.yml
+# - playbooks/configure_fail2ban.yml
 - playbooks/configure_ssh.yml
-- playbooks/configure_users.yml
+# - playbooks/configure_users.yml
 
 # the repo you want tracked
 ansible_pull_repo: ssh://git@github.com/redhat-manufacturing/edge-lab-ansible.git
