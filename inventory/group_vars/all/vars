@@ -14,7 +14,6 @@ ssh_config_authorized_keys:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/zleblanc") }}'
   exxon:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/iampmmoore") }}'
-  - '{{ lookup("file", playbook_dir + "/../files/pubkeys/manojsonu7") }}'
   petrolink:
   - '{{ lookup("file", playbook_dir + "/../files/pubkeys/mcmurrayi") }}'
   smarthub:
